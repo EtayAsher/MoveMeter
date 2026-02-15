@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="MoveMeter is an AI-powered relocation intelligence tool for remote workers evaluating financial readiness for global moves."
+      content="MoveMeter is an AI-powered relocation intelligence tool for evaluating financial readiness before moving cities."
     />
     <title>MoveMeter | AI-Powered Relocation Intelligence</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,58 +17,39 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="hero-glow hero-glow-left" aria-hidden="true"></div>
-    <div class="hero-glow hero-glow-right" aria-hidden="true"></div>
+    <div class="bg-blur blur-1" aria-hidden="true"></div>
+    <div class="bg-blur blur-2" aria-hidden="true"></div>
 
-    <header class="hero">
-      <div class="container hero-inner">
-        <p class="eyebrow">MoveMeter</p>
-        <div class="hero-copy">
-          <h1>Planning a Relocation? Start With Intelligence.</h1>
-          <p class="subheadline">
-            MoveMeter uses advanced relocation modeling to analyze your financial
-            readiness before you make a life-changing move.
-          </p>
-        </div>
-        <div class="hero-badge">AI-Powered Relocation Intelligence</div>
-      </div>
+    <header class="hero container">
+      <span class="top-badge">AI-Powered Relocation Intelligence</span>
+      <h1>Thinking about relocating? Get a real affordability verdict in 60 seconds.</h1>
+      <p>
+        MoveMeter models your monthly budget, tax exposure, visa fit, stress-test outcomes,
+        and practical next steps so you can relocate with confidence.
+      </p>
     </header>
 
     <main class="container">
-      <section class="card" aria-labelledby="calculator-heading">
-        <h2 id="calculator-heading">Relocation Intelligence Inputs</h2>
+      <section class="glass-card input-card" aria-labelledby="calculator-heading">
+        <h2 id="calculator-heading">Relocation Inputs</h2>
         <form id="calculator-form" class="form-grid">
           <label>
             Monthly Income (USD)
-            <input
-              id="income"
-              type="number"
-              min="0"
-              step="100"
-              placeholder="e.g. 6500"
-              required
-            />
+            <input id="income" type="number" min="0" step="100" placeholder="e.g. 6500" required />
           </label>
 
           <label>
             Savings (USD)
-            <input
-              id="savings"
-              type="number"
-              min="0"
-              step="100"
-              placeholder="e.g. 18000"
-              required
-            />
+            <input id="savings" type="number" min="0" step="100" placeholder="e.g. 18000" required />
           </label>
 
           <label>
-            Destination City
+            City
             <select id="city" required></select>
           </label>
 
           <label>
-            Lifestyle Multiplier
+            Lifestyle Level
             <select id="lifestyle" required>
               <option value="Basic">Basic</option>
               <option value="Standard" selected>Standard</option>
@@ -76,71 +57,41 @@
             </select>
           </label>
 
-          <button type="submit" class="btn">Analyze My Move</button>
+          <button type="submit" class="btn-primary">Generate AI Relocation Report</button>
         </form>
       </section>
 
-      <section id="results" class="card results-card" aria-live="polite">
-        <div class="results-header">
-          <h2>AI Relocation Report</h2>
-          <span id="verdict-badge" class="badge neutral">Awaiting analysis</span>
-        </div>
-
-        <div id="loading-state" class="loading-state" hidden>
-          <span class="loader" aria-hidden="true"></span>
-          <p>Running AI relocation model...</p>
-        </div>
-
-        <p id="result-intro" class="result-intro">
-          Enter your details to generate a personalized relocation intelligence report.
-        </p>
-
-        <div id="report-root" class="report-root"></div>
-      </section>
-
-      <section class="card premium" aria-labelledby="premium-heading">
-        <div class="premium-header">
-          <h2 id="premium-heading">Premium Intelligence Layer</h2>
-          <span class="locked">Locked</span>
-        </div>
-
-        <div class="premium-lock" aria-hidden="true">
-          <div class="premium-item">
-            <h3>12-Month Financial Projection</h3>
-            <p>Track projected burn, surplus, and runway trends month-by-month.</p>
+      <section id="output-grid" class="output-grid" hidden>
+        <article id="results" class="glass-card" aria-live="polite">
+          <div class="results-header">
+            <h2>AI Relocation Report</h2>
+            <span id="verdict-badge" class="status-badge">Awaiting analysis</span>
           </div>
-          <div class="premium-item">
-            <h3>Emergency Scenario Modeling</h3>
-            <p>Stress-test your plan against rapid shocks and contingency events.</p>
-          </div>
-          <div class="premium-item">
-            <h3>Tax Optimization Tips</h3>
-            <p>Receive destination-aware tax levers to improve monthly outcomes.</p>
-          </div>
-          <div class="premium-item">
-            <h3>Relocation Readiness Score (0–100)</h3>
-            <p>A weighted readiness score across affordability, risk, and compliance.</p>
-          </div>
-          <div class="premium-item">
-            <h3>Downloadable Relocation Report</h3>
-            <p>Export a premium PDF-ready relocation brief for your planning stack.</p>
-          </div>
-        </div>
 
-        <a
-          class="btn premium-btn"
-          href="https://buy.stripe.com/test_placeholder"
-          target="_blank"
-          rel="noopener noreferrer"
-          >Unlock Full Relocation Intelligence – $7</a
-        >
+          <div id="loading-state" class="loading-state" hidden>
+            <span class="loader" aria-hidden="true"></span>
+            <p>Running MoveMeter AI model…</p>
+          </div>
+
+          <p id="result-intro" class="result-intro"></p>
+          <div id="report-root" class="report-root"></div>
+        </article>
+
+        <aside id="chat-panel" class="glass-card chat-panel" hidden>
+          <div class="chat-header">
+            <h3>MoveMeter AI Advisor (Instant Answers)</h3>
+            <p>Tap a question. Get fast, personalized advice from your report.</p>
+          </div>
+
+          <div class="quick-actions" id="quick-actions"></div>
+          <div id="chat-messages" class="chat-messages"></div>
+          <div id="chat-questions" class="chat-questions"></div>
+        </aside>
       </section>
     </main>
 
-    <footer>
-      <div class="container footer-inner">
-        <p>MoveMeter · AI relocation intelligence for remote professionals</p>
-      </div>
+    <footer class="container footer">
+      <p>MoveMeter · Built for remote professionals planning smart relocations.</p>
     </footer>
 
     <script src="script.js"></script>
