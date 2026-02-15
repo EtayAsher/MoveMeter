@@ -5,49 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="MoveMeter helps remote workers evaluate relocation affordability with city-based monthly costs, tax estimates, and sustainability verdicts."
+      content="MoveMeter is an AI-powered relocation intelligence tool for remote workers evaluating financial readiness for global moves."
     />
-    <title>MoveMeter – Relocation Affordability Calculator</title>
+    <title>MoveMeter | AI-Powered Relocation Intelligence</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <div class="hero-glow hero-glow-left" aria-hidden="true"></div>
+    <div class="hero-glow hero-glow-right" aria-hidden="true"></div>
+
     <header class="hero">
-      <div class="container">
+      <div class="container hero-inner">
         <p class="eyebrow">MoveMeter</p>
-        <h1>Can You Afford to Move There?</h1>
-        <p class="subheadline">
-          A realistic relocation affordability calculator for remote workers.
-        </p>
+        <div class="hero-copy">
+          <h1>Planning a Relocation? Start With Intelligence.</h1>
+          <p class="subheadline">
+            MoveMeter uses advanced relocation modeling to analyze your financial
+            readiness before you make a life-changing move.
+          </p>
+        </div>
+        <div class="hero-badge">AI-Powered Relocation Intelligence</div>
       </div>
     </header>
 
     <main class="container">
       <section class="card" aria-labelledby="calculator-heading">
-        <h2 id="calculator-heading">Relocation Calculator</h2>
+        <h2 id="calculator-heading">Relocation Intelligence Inputs</h2>
         <form id="calculator-form" class="form-grid">
           <label>
             Monthly Income (USD)
-            <input id="income" type="number" min="0" step="100" placeholder="e.g. 4500" required />
+            <input
+              id="income"
+              type="number"
+              min="0"
+              step="100"
+              placeholder="e.g. 6500"
+              required
+            />
           </label>
 
           <label>
             Savings (USD)
-            <input id="savings" type="number" min="0" step="100" placeholder="e.g. 12000" required />
+            <input
+              id="savings"
+              type="number"
+              min="0"
+              step="100"
+              placeholder="e.g. 18000"
+              required
+            />
           </label>
 
           <label>
-            City
+            Destination City
             <select id="city" required></select>
           </label>
 
           <label>
-            Lifestyle Level
+            Lifestyle Multiplier
             <select id="lifestyle" required>
               <option value="Basic">Basic</option>
               <option value="Standard" selected>Standard</option>
@@ -55,53 +76,54 @@
             </select>
           </label>
 
-          <button type="submit" class="btn">Calculate Affordability</button>
+          <button type="submit" class="btn">Analyze My Move</button>
         </form>
       </section>
 
-      <section id="results" class="card" aria-live="polite">
-        <h2>Free Result</h2>
-        <div class="result-grid">
-          <div>
-            <p class="label">Estimated Monthly Cost</p>
-            <p id="monthly-cost" class="value">$0</p>
-          </div>
-          <div>
-            <p class="label">Verdict</p>
-            <span id="verdict-badge" class="badge neutral">Awaiting input</span>
-          </div>
+      <section id="results" class="card results-card" aria-live="polite">
+        <div class="results-header">
+          <h2>AI Relocation Report</h2>
+          <span id="verdict-badge" class="badge neutral">Awaiting analysis</span>
         </div>
-        <p id="result-text" class="result-text">
-          Enter your details to get a realistic affordability check.
+
+        <div id="loading-state" class="loading-state" hidden>
+          <span class="loader" aria-hidden="true"></span>
+          <p>Running AI relocation model...</p>
+        </div>
+
+        <p id="result-intro" class="result-intro">
+          Enter your details to generate a personalized relocation intelligence report.
         </p>
+
+        <div id="report-root" class="report-root"></div>
       </section>
 
       <section class="card premium" aria-labelledby="premium-heading">
         <div class="premium-header">
-          <h2 id="premium-heading">Premium Full Report</h2>
+          <h2 id="premium-heading">Premium Intelligence Layer</h2>
           <span class="locked">Locked</span>
         </div>
 
         <div class="premium-lock" aria-hidden="true">
           <div class="premium-item">
-            <h3>Full Cost Breakdown</h3>
-            <p>Rent, food, transport, insurance, coworking, and tax analysis.</p>
+            <h3>12-Month Financial Projection</h3>
+            <p>Track projected burn, surplus, and runway trends month-by-month.</p>
           </div>
           <div class="premium-item">
-            <h3>Visa Requirement Comparison</h3>
-            <p>Income threshold check against your monthly earnings.</p>
+            <h3>Emergency Scenario Modeling</h3>
+            <p>Stress-test your plan against rapid shocks and contingency events.</p>
           </div>
           <div class="premium-item">
-            <h3>Risk Analysis</h3>
-            <p>City stability signal with detailed relocation risk notes.</p>
+            <h3>Tax Optimization Tips</h3>
+            <p>Receive destination-aware tax levers to improve monthly outcomes.</p>
           </div>
           <div class="premium-item">
-            <h3>Runway & Alternatives</h3>
-            <p>Savings runway months and a cheaper city suggestion.</p>
+            <h3>Relocation Readiness Score (0–100)</h3>
+            <p>A weighted readiness score across affordability, risk, and compliance.</p>
           </div>
           <div class="premium-item">
-            <h3>Downloadable PDF</h3>
-            <p>Professional report export for planning and review.</p>
+            <h3>Downloadable Relocation Report</h3>
+            <p>Export a premium PDF-ready relocation brief for your planning stack.</p>
           </div>
         </div>
 
@@ -110,14 +132,14 @@
           href="https://buy.stripe.com/test_placeholder"
           target="_blank"
           rel="noopener noreferrer"
-          >Unlock Full Report – $7</a
+          >Unlock Full Relocation Intelligence – $7</a
         >
       </section>
     </main>
 
     <footer>
       <div class="container footer-inner">
-        <p>MoveMeter</p>
+        <p>MoveMeter · AI relocation intelligence for remote professionals</p>
       </div>
     </footer>
 
