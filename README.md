@@ -1,1 +1,3 @@
-# examsnap
+# MoveMeter
+
+Relocation affordability calculator MVP.

@@ -1,1123 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ExamSnap turns your notes into exam-style practice with OCR-powered input and structured output." />
-  <title>ExamSnap | AI Exam Practice Generator</title>
-  <style>
-    :root {
-      --bg: #080b14;
-      --surface: rgba(18, 22, 37, 0.72);
-      --surface-strong: #12172a;
-      --border: rgba(255, 255, 255, 0.12);
-      --text: #edf2ff;
-      --text-muted: #9ea7c8;
-      --accent: #7c5cff;
-      --accent-2: #19d9ff;
-      --success: #4ade80;
-      --warning: #ffcf5a;
-      --radius: 18px;
-      --shadow: 0 20px 70px rgba(10, 13, 26, 0.55);
-      --focus: 0 0 0 3px rgba(124, 92, 255, 0.4);
-    }
-
-    * { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      background:
-        radial-gradient(circle at 10% -10%, rgba(124, 92, 255, 0.28), transparent 40%),
-        radial-gradient(circle at 90% 15%, rgba(25, 217, 255, 0.17), transparent 35%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.55;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    .container {
-      width: min(1120px, 92vw);
-      margin: 0 auto;
-    }
-
-    .section {
-      padding: 88px 0;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      padding: 6px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.03);
-      font-size: 0.82rem;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 18px;
-    }
-
-    h1, h2, h3 {
-      margin: 0 0 14px;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-    }
-
-    h1 {
-      font-size: clamp(2rem, 5vw, 4rem);
-      max-width: 14ch;
-    }
-
-    h2 {
-      font-size: clamp(1.65rem, 3.2vw, 2.5rem);
-    }
-
-    p {
-      margin: 0;
-      color: var(--text-muted);
-      font-size: clamp(1rem, 1.2vw, 1.08rem);
-    }
-
-    .btn {
-      border: none;
-      border-radius: 14px;
-      padding: 12px 18px;
-      font-size: 0.96rem;
-      font-weight: 600;
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: transform 180ms ease, box-shadow 220ms ease, background 220ms ease, border-color 220ms ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 16px 32px rgba(9, 12, 25, 0.3);
-    }
-
-    .btn:active { transform: translateY(0); }
-    .btn:focus-visible {
-      outline: none;
-      box-shadow: var(--focus);
-    }
-
-    .btn-primary {
-      background: linear-gradient(128deg, var(--accent), #5d8bff 52%, var(--accent-2));
-      border-color: rgba(255, 255, 255, 0.22);
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: var(--border);
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(0px);
-      transition: backdrop-filter 250ms ease, background-color 250ms ease, border-color 250ms ease;
-      border-bottom: 1px solid transparent;
-    }
-
-    .site-header.scrolled {
-      background: rgba(8, 11, 20, 0.76);
-      border-bottom-color: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(8px);
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      min-height: 72px;
-    }
-
-    .logo {
-      font-size: 1.18rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      background: linear-gradient(120deg, #ffffff, #c7d2fe 40%, #88e9ff 82%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      flex-wrap: wrap;
-    }
-
-    .nav-link {
-      color: var(--text-muted);
-      padding: 9px 12px;
-      border-radius: 10px;
-      font-size: 0.93rem;
-      transition: color 200ms ease, background 200ms ease;
-    }
-
-    .nav-link:hover,
-    .nav-link:focus-visible {
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.06);
-      outline: none;
-    }
-
-    .hero {
-      padding: 86px 0 76px;
-      position: relative;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 28px;
-      align-items: center;
-    }
-
-    .hero-copy p {
-      max-width: 62ch;
-      margin-top: 16px;
-      color: #c6ceeb;
-    }
-
-    .cta-row {
-      margin-top: 30px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .trust-line {
-      margin-top: 16px;
-      font-size: 0.95rem;
-      color: #aeb8db;
-    }
-
-    .hero-card {
-      border-radius: calc(var(--radius) + 4px);
-      border: 1px solid var(--border);
-      background: linear-gradient(140deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
-      box-shadow: var(--shadow);
-      padding: 22px;
-      min-height: 250px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .hero-card .dot-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 6px;
-    }
-
-    .chip {
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      padding: 10px;
-      background: rgba(10, 14, 24, 0.6);
-      font-size: 0.88rem;
-      color: #d4dcf9;
-    }
-
-    .steps-grid,
-    .pricing-grid,
-    .faq-grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .steps-grid {
-      grid-template-columns: repeat(3, 1fr);
-      margin-top: 28px;
-    }
-
-    .card {
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      box-shadow: var(--shadow);
-      padding: 20px;
-    }
-
-    .step-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      margin-bottom: 12px;
-      background: rgba(124, 92, 255, 0.14);
-      color: #d2ddff;
-    }
-
-    .step-title {
-      font-weight: 700;
-      margin-bottom: 8px;
-      font-size: 1.05rem;
-    }
-
-    .comparison {
-      margin-top: 24px;
-      border-radius: calc(var(--radius) + 2px);
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.02);
-      overflow: hidden;
-    }
-
-    .comparison-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .comparison-col {
-      padding: 24px;
-    }
-
-    .comparison-col:first-child {
-      background: rgba(255, 255, 255, 0.02);
-      border-right: 1px solid var(--border);
-    }
-
-    .comparison h3 {
-      margin-bottom: 12px;
-      font-size: 1.2rem;
-    }
-
-    ul.clean {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 8px;
-    }
-
-    ul.clean li {
-      padding-left: 20px;
-      position: relative;
-      color: #ccd5f5;
-    }
-
-    ul.clean li::before {
-      content: "•";
-      position: absolute;
-      left: 4px;
-      color: var(--accent-2);
-    }
-
-    .honest-line {
-      margin-top: 14px;
-      color: #e8eeff;
-      font-weight: 600;
-      text-align: center;
-      padding: 10px 14px;
-    }
-
-    .demo-shell {
-      margin-top: 28px;
-      display: grid;
-      grid-template-columns: 1.06fr 0.94fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .panel {
-      border-radius: calc(var(--radius) + 2px);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      padding: 18px;
-      box-shadow: var(--shadow);
-    }
-
-    .tabs {
-      display: inline-flex;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      overflow: hidden;
-      margin-bottom: 14px;
-    }
-
-    .tab-btn {
-      border: none;
-      background: transparent;
-      color: #c8d1f0;
-      padding: 10px 12px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 600;
-      border-right: 1px solid var(--border);
-      transition: background 200ms ease, color 200ms ease;
-    }
-
-    .tab-btn:last-child { border-right: none; }
-
-    .tab-btn.active {
-      background: rgba(124, 92, 255, 0.2);
-      color: #ffffff;
-    }
-
-    .dropzone {
-      border-radius: 14px;
-      border: 1px dashed rgba(255, 255, 255, 0.26);
-      padding: 24px 18px;
-      text-align: center;
-      background: rgba(255, 255, 255, 0.02);
-      transition: border-color 220ms ease, background 220ms ease;
-    }
-
-    .dropzone.dragover {
-      border-color: var(--accent-2);
-      background: rgba(25, 217, 255, 0.08);
-    }
-
-    .mini {
-      font-size: 0.84rem;
-      color: var(--text-muted);
-      margin-top: 10px;
-    }
-
-    .file-preview {
-      margin-top: 14px;
-      display: none;
-      gap: 12px;
-      align-items: center;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .file-preview img {
-      width: 66px;
-      height: 66px;
-      border-radius: 10px;
-      object-fit: cover;
-      border: 1px solid var(--border);
-    }
-
-    .loader {
-      display: none;
-      margin-top: 12px;
-      gap: 8px;
-      align-items: center;
-      color: #cfdaff;
-      font-size: 0.9rem;
-    }
-
-    .loader .spinner {
-      width: 14px;
-      height: 14px;
-      border-radius: 999px;
-      border: 2px solid rgba(255, 255, 255, 0.28);
-      border-top-color: var(--accent-2);
-      animation: spin 0.7s linear infinite;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    textarea,
-    select {
-      width: 100%;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: rgba(12, 16, 29, 0.9);
-      color: var(--text);
-      padding: 11px 12px;
-      font: inherit;
-      resize: vertical;
-      min-height: 130px;
-    }
-
-    textarea:focus-visible,
-    select:focus-visible,
-    .tab-btn:focus-visible,
-    .nav-link:focus-visible {
-      outline: none;
-      box-shadow: var(--focus);
-    }
-
-    .row {
-      display: grid;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .type-buttons {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    .choice-btn {
-      border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.03);
-      color: #cfdaff;
-      border-radius: 10px;
-      padding: 9px 10px;
-      font-size: 0.88rem;
-      cursor: pointer;
-      font-weight: 600;
-      transition: border-color 220ms ease, background 220ms ease, color 220ms ease;
-    }
-
-    .choice-btn.active {
-      background: rgba(124, 92, 255, 0.2);
-      border-color: rgba(124, 92, 255, 0.6);
-      color: #ffffff;
-    }
-
-    .split {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .label {
-      margin-bottom: 6px;
-      color: #c4cdf0;
-      font-size: 0.9rem;
-      display: block;
-    }
-
-    .demo-label {
-      margin-top: 10px;
-      font-size: 0.78rem;
-      color: #9fadd8;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-    }
-
-    .output-box {
-      margin-top: 14px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      background: rgba(255, 255, 255, 0.02);
-      min-height: 170px;
-      white-space: pre-wrap;
-      color: #dde5ff;
-      font-size: 0.95rem;
-    }
-
-    .toggle {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 10px;
-      color: #d5defb;
-      font-size: 0.9rem;
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 12px;
-      flex-wrap: wrap;
-    }
-
-    .pricing-grid {
-      grid-template-columns: repeat(3, 1fr);
-      margin-top: 20px;
-    }
-
-    .price-card h3 { margin-bottom: 8px; }
-
-    .price {
-      margin-top: 8px;
-      font-size: 1.3rem;
-      color: #f4f7ff;
-      font-weight: 700;
-    }
-
-    .faq-grid {
-      margin-top: 20px;
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    details {
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      padding: 14px 16px;
-    }
-
-    summary {
-      cursor: pointer;
-      font-weight: 600;
-      color: #edf2ff;
-    }
-
-    details p {
-      margin-top: 8px;
-      font-size: 0.95rem;
-    }
-
-    .site-footer {
-      border-top: 1px solid var(--border);
-      padding: 26px 0 32px;
-    }
-
-    .footer-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      color: #cdd6f8;
-      font-size: 0.93rem;
-    }
-
-    .disclaimer {
-      width: 100%;
-      margin-top: 8px;
-      font-size: 0.86rem;
-      color: var(--text-muted);
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 450ms ease, transform 450ms ease;
-    }
-
-    .reveal.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    @media (max-width: 980px) {
-      .hero-grid,
-      .demo-shell,
-      .comparison-grid,
-      .steps-grid,
-      .pricing-grid,
-      .faq-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .hero { padding-top: 68px; }
-      .nav { padding: 6px 0; }
-      .type-buttons { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 640px) {
-      .section { padding: 72px 0; }
-      h1 { font-size: clamp(1.8rem, 9vw, 2.7rem); }
-      .cta-row .btn,
-      .actions .btn {
-        width: 100%;
-      }
-      .split { grid-template-columns: 1fr; }
-      .nav-right { width: 100%; justify-content: space-between; }
-      .nav-links { width: 100%; justify-content: space-between; }
-    }
-  </style>
-</head>
-<body>
-  <header class="site-header" id="top">
-    <div class="container nav">
-      <a href="#top" class="logo" aria-label="ExamSnap home">ExamSnap</a>
-      <div class="nav-right">
-        <nav class="nav-links" aria-label="Primary navigation">
-          <a class="nav-link" href="#how-it-works">How it works</a>
-          <a class="nav-link" href="#why-pay">Why pay</a>
-          <a class="nav-link" href="#pricing">Pricing</a>
-          <a class="nav-link" href="#faq">FAQ</a>
-        </nav>
-        <a href="#demo" class="btn btn-primary" aria-label="Try ExamSnap now">Try it now</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="MoveMeter helps remote workers evaluate relocation affordability with city-based monthly costs, tax estimates, and sustainability verdicts."
+    />
+    <title>MoveMeter – Relocation Affordability Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container">
+        <p class="eyebrow">MoveMeter</p>
+        <h1>Can You Afford to Move There?</h1>
+        <p class="subheadline">
+          A realistic relocation affordability calculator for remote workers.
+        </p>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <main>
-    <section class="hero reveal">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <span class="eyebrow">Exam practice, simplified</span>
-          <h1>Turn a photo of your notes into exam-style practice — in seconds.</h1>
-          <p>OCR + structured prompts + consistent formatting. No prompt writing. No chaos.</p>
-          <div class="cta-row">
-            <a href="#demo" class="btn btn-primary" aria-label="Upload a photo in demo">Upload a photo</a>
-            <a href="#demo" class="btn btn-secondary" aria-label="Paste text in demo">Paste text</a>
+    <main class="container">
+      <section class="card" aria-labelledby="calculator-heading">
+        <h2 id="calculator-heading">Relocation Calculator</h2>
+        <form id="calculator-form" class="form-grid">
+          <label>
+            Monthly Income (USD)
+            <input id="income" type="number" min="0" step="100" placeholder="e.g. 4500" required />
+          </label>
+
+          <label>
+            Savings (USD)
+            <input id="savings" type="number" min="0" step="100" placeholder="e.g. 12000" required />
+          </label>
+
+          <label>
+            City
+            <select id="city" required></select>
+          </label>
+
+          <label>
+            Lifestyle Level
+            <select id="lifestyle" required>
+              <option value="Basic">Basic</option>
+              <option value="Standard" selected>Standard</option>
+              <option value="Comfortable">Comfortable</option>
+            </select>
+          </label>
+
+          <button type="submit" class="btn">Calculate Affordability</button>
+        </form>
+      </section>
+
+      <section id="results" class="card" aria-live="polite">
+        <h2>Free Result</h2>
+        <div class="result-grid">
+          <div>
+            <p class="label">Estimated Monthly Cost</p>
+            <p id="monthly-cost" class="value">$0</p>
           </div>
-          <p class="trust-line">Built for fast, reliable practice when you’re under pressure.</p>
-        </div>
-        <aside class="hero-card" aria-label="Feature preview">
-          <h3>From messy notes to focused practice</h3>
-          <p>Switch between question sets, MCQs, and summary mode in one interface with clean export options.</p>
-          <div class="dot-grid">
-            <div class="chip">OCR preview</div>
-            <div class="chip">Difficulty control</div>
-            <div class="chip">Answer reveal</div>
-            <div class="chip">Copy output</div>
-            <div class="chip">.txt download</div>
-            <div class="chip">No setup friction</div>
+          <div>
+            <p class="label">Verdict</p>
+            <span id="verdict-badge" class="badge neutral">Awaiting input</span>
           </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="section reveal" id="how-it-works">
-      <div class="container">
-        <span class="eyebrow">How it works</span>
-        <h2>Three steps. Zero prompt engineering.</h2>
-        <div class="steps-grid">
-          <article class="card">
-            <div class="step-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 5h8M8 9h8M5 13h14M7 19h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            </div>
-            <div class="step-title">1. Snap or paste</div>
-            <p>Drop a photo of your notes or paste your raw text directly into the workspace.</p>
-          </article>
-          <article class="card">
-            <div class="step-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="5" width="16" height="14" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M8 10h8M8 14h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            </div>
-            <div class="step-title">2. Choose output</div>
-            <p>Select practice questions, MCQ, or a compact study summary with difficulty control.</p>
-          </article>
-          <article class="card">
-            <div class="step-icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12h16M12 4l8 8-8 8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div class="step-title">3. Practice instantly</div>
-            <p>Generate a ready-to-use set, reveal answers when needed, and export for revision later.</p>
-          </article>
         </div>
-      </div>
-    </section>
+        <p id="result-text" class="result-text">
+          Enter your details to get a realistic affordability check.
+        </p>
+      </section>
 
-    <section class="section reveal" id="why-pay">
-      <div class="container">
-        <span class="eyebrow">Why pay</span>
-        <h2>Why pay instead of using a generic AI?</h2>
-        <div class="comparison">
-          <div class="comparison-grid">
-            <div class="comparison-col">
-              <h3>Generic AI chat</h3>
-              <ul class="clean">
-                <li>You rewrite prompts every time</li>
-                <li>Output format varies</li>
-                <li>OCR cleanup is inconsistent</li>
-                <li>Hard to get exam-style questions reliably</li>
-              </ul>
-            </div>
-            <div class="comparison-col">
-              <h3>ExamSnap</h3>
-              <ul class="clean">
-                <li>One-click workflow</li>
-                <li>Consistent exam-style structure</li>
-                <li>Built-in OCR + clean text preview</li>
-                <li>Answer key + difficulty control</li>
-              </ul>
-            </div>
+      <section class="card premium" aria-labelledby="premium-heading">
+        <div class="premium-header">
+          <h2 id="premium-heading">Premium Full Report</h2>
+          <span class="locked">Locked</span>
+        </div>
+
+        <div class="premium-lock" aria-hidden="true">
+          <div class="premium-item">
+            <h3>Full Cost Breakdown</h3>
+            <p>Rent, food, transport, insurance, coworking, and tax analysis.</p>
           </div>
-          <div class="honest-line">Free tools can give you something. ExamSnap gives you the right thing — fast.</div>
+          <div class="premium-item">
+            <h3>Visa Requirement Comparison</h3>
+            <p>Income threshold check against your monthly earnings.</p>
+          </div>
+          <div class="premium-item">
+            <h3>Risk Analysis</h3>
+            <p>City stability signal with detailed relocation risk notes.</p>
+          </div>
+          <div class="premium-item">
+            <h3>Runway & Alternatives</h3>
+            <p>Savings runway months and a cheaper city suggestion.</p>
+          </div>
+          <div class="premium-item">
+            <h3>Downloadable PDF</h3>
+            <p>Professional report export for planning and review.</p>
+          </div>
         </div>
+
+        <a
+          class="btn premium-btn"
+          href="https://buy.stripe.com/test_placeholder"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Unlock Full Report – $7</a
+        >
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <p>MoveMeter</p>
       </div>
-    </section>
+    </footer>
 
-    <section class="section reveal" id="demo">
-      <div class="container">
-        <span class="eyebrow">Interactive demo</span>
-        <h2>Experience the product workflow</h2>
-        <p>Use this app-like demo to simulate the full flow from OCR input to structured output.</p>
-
-        <div class="demo-shell" role="region" aria-label="ExamSnap app demo">
-          <section class="panel" aria-label="Input panel">
-            <div class="tabs" role="tablist" aria-label="Input methods">
-              <button class="tab-btn active" id="tab-upload" role="tab" aria-selected="true" aria-controls="panel-upload">Upload Photo (OCR)</button>
-              <button class="tab-btn" id="tab-paste" role="tab" aria-selected="false" aria-controls="panel-paste">Paste Text</button>
-            </div>
-
-            <div id="panel-upload" role="tabpanel" aria-labelledby="tab-upload">
-              <div class="dropzone" id="dropzone" tabindex="0" aria-label="Drag and drop area for image upload">
-                <p>Drag & drop your image here</p>
-                <p class="mini">or</p>
-                <label class="btn btn-secondary" for="fileInput" aria-label="Choose image file">Choose file</label>
-                <input id="fileInput" type="file" accept="image/*" hidden />
-                <p class="mini">PNG, JPG, or WEBP. Local preview only.</p>
-              </div>
-              <div class="file-preview" id="filePreview" aria-live="polite">
-                <img id="previewImage" alt="Selected upload preview" />
-                <div>
-                  <strong id="fileName">notes-image.png</strong>
-                  <p class="mini">Ready for OCR extraction</p>
-                </div>
-              </div>
-              <div class="loader" id="ocrLoader" aria-live="polite">
-                <span class="spinner" aria-hidden="true"></span>
-                <span>Extracting text…</span>
-              </div>
-              <div class="row" id="ocrTextWrap" style="display:none; margin-top: 12px;">
-                <label class="label" for="ocrText">Extracted text (editable)</label>
-                <textarea id="ocrText" aria-label="Extracted OCR text"></textarea>
-              </div>
-            </div>
-
-            <div id="panel-paste" role="tabpanel" aria-labelledby="tab-paste" hidden>
-              <label class="label" for="pasteText">Paste your source text</label>
-              <textarea id="pasteText" aria-label="Pasted text input" placeholder="Paste lecture notes, textbook paragraphs, or a review guide here..."></textarea>
-            </div>
-          </section>
-
-          <section class="panel" aria-label="Generation controls and output">
-            <div class="row">
-              <span class="label">Output type</span>
-              <div class="type-buttons" role="group" aria-label="Output type selector">
-                <button class="choice-btn active" data-type="practice" aria-label="Select practice questions">Practice Questions</button>
-                <button class="choice-btn" data-type="mcq" aria-label="Select multiple choice output">Multiple-Choice (MCQ)</button>
-                <button class="choice-btn" data-type="summary" aria-label="Select study summary output">Study Summary</button>
-              </div>
-            </div>
-
-            <div class="split">
-              <div>
-                <label class="label" for="questionCount">Questions count</label>
-                <select id="questionCount" aria-label="Questions count">
-                  <option value="5">5</option>
-                  <option value="10" selected>10</option>
-                  <option value="15">15</option>
-                </select>
-              </div>
-              <div>
-                <label class="label" for="difficulty">Difficulty</label>
-                <select id="difficulty" aria-label="Difficulty level">
-                  <option value="Easy">Easy</option>
-                  <option value="Medium" selected>Medium</option>
-                  <option value="Hard">Hard</option>
-                </select>
-              </div>
-            </div>
-
-            <button class="btn btn-primary" id="generateBtn" style="width:100%; margin-top: 12px;" aria-label="Generate demo output">Generate</button>
-            <div class="demo-label">Demo output (AI integration coming next).</div>
-
-            <div class="output-box" id="outputBox" aria-live="polite">Output will appear here after you generate.</div>
-            <label class="toggle" id="answerToggleWrap" style="display:none;">
-              <input type="checkbox" id="answerToggle" /> Reveal answers
-            </label>
-            <div class="actions">
-              <button class="btn btn-secondary" id="copyBtn" aria-label="Copy output text">Copy</button>
-              <button class="btn btn-secondary" id="downloadBtn" aria-label="Download output as text file">Download</button>
-            </div>
-          </section>
-        </div>
-      </div>
-    </section>
-
-    <section class="section reveal" id="pricing">
-      <div class="container">
-        <span class="eyebrow">Pricing</span>
-        <h2>Simple pricing, no lock-in</h2>
-        <div class="pricing-grid">
-          <article class="card price-card">
-            <h3>Free</h3>
-            <p>Preview + OCR text cleanup</p>
-          </article>
-          <article class="card price-card">
-            <h3>Pay-per-use</h3>
-            <p class="price">$1.99 / full generation</p>
-          </article>
-          <article class="card price-card">
-            <h3>Packs</h3>
-            <p class="price">$6.99 / 10 credits</p>
-          </article>
-        </div>
-        <p style="margin-top: 14px;">No subscriptions required.</p>
-      </div>
-    </section>
-
-    <section class="section reveal" id="faq">
-      <div class="container">
-        <span class="eyebrow">FAQ</span>
-        <h2>Questions students ask before trying</h2>
-        <div class="faq-grid">
-          <details>
-            <summary>Does it work with handwriting?</summary>
-            <p>It can process clear handwriting, but results vary with writing style and image quality. You can always edit extracted text before generating output.</p>
-          </details>
-          <details>
-            <summary>Can I edit the extracted text?</summary>
-            <p>Yes. After OCR extraction, the text appears in an editable field so you can correct names, formulas, or formatting.</p>
-          </details>
-          <details>
-            <summary>Is this cheating?</summary>
-            <p>ExamSnap is intended for study preparation and practice, not for use during restricted assessments. Follow your school’s academic integrity policy.</p>
-          </details>
-          <details>
-            <summary>What subjects does it support?</summary>
-            <p>It works best with text-based subjects and structured notes. Science and math topics are supported when source text is clear.</p>
-          </details>
-          <details>
-            <summary>Do you store my files?</summary>
-            <p>This demo runs locally in your browser and does not upload files. Production storage policy will be documented before launch.</p>
-          </details>
-          <details>
-            <summary>Can I use it on mobile?</summary>
-            <p>Yes. The interface is optimized for phone and desktop, so you can quickly generate practice material from either device.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container footer-wrap">
-      <div class="footer-links">
-        <a href="#" aria-label="Privacy">Privacy</a>
-        <a href="#" aria-label="Contact">Contact</a>
-        <span>© ExamSnap</span>
-      </div>
-      <p class="disclaimer">ExamSnap generates practice material. Always verify against your course requirements.</p>
-    </div>
-  </footer>
-
-  <script>
-    const header = document.querySelector('.site-header');
-    const revealElements = document.querySelectorAll('.reveal');
-
-    const updateHeaderState = () => {
-      header.classList.toggle('scrolled', window.scrollY > 8);
-    };
-
-    window.addEventListener('scroll', updateHeaderState, { passive: true });
-    updateHeaderState();
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.14 });
-
-    revealElements.forEach((element) => observer.observe(element));
-
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    const uploadPanel = document.getElementById('panel-upload');
-    const pastePanel = document.getElementById('panel-paste');
-
-    tabButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        tabButtons.forEach((btn) => {
-          btn.classList.remove('active');
-          btn.setAttribute('aria-selected', 'false');
-        });
-        button.classList.add('active');
-        button.setAttribute('aria-selected', 'true');
-
-        const isUpload = button.id === 'tab-upload';
-        uploadPanel.hidden = !isUpload;
-        pastePanel.hidden = isUpload;
-      });
-    });
-
-    const dropzone = document.getElementById('dropzone');
-    const fileInput = document.getElementById('fileInput');
-    const filePreview = document.getElementById('filePreview');
-    const previewImage = document.getElementById('previewImage');
-    const fileName = document.getElementById('fileName');
-    const loader = document.getElementById('ocrLoader');
-    const ocrTextWrap = document.getElementById('ocrTextWrap');
-    const ocrText = document.getElementById('ocrText');
-
-    const sampleExtract = `Cell respiration overview\n- Glycolysis occurs in cytoplasm and yields net 2 ATP\n- Pyruvate enters mitochondria for Krebs cycle\n- Electron transport chain drives most ATP production\n- Oxygen acts as final electron acceptor\n\nKey terms: ATP, NADH, mitochondrial matrix, oxidative phosphorylation`;
-
-    const handleFile = (file) => {
-      if (!file || !file.type.startsWith('image/')) return;
-
-      const objectUrl = URL.createObjectURL(file);
-      previewImage.src = objectUrl;
-      fileName.textContent = file.name;
-      filePreview.style.display = 'flex';
-      loader.style.display = 'inline-flex';
-      ocrTextWrap.style.display = 'none';
-
-      window.setTimeout(() => {
-        loader.style.display = 'none';
-        ocrTextWrap.style.display = 'grid';
-        ocrText.value = sampleExtract;
-        URL.revokeObjectURL(objectUrl);
-      }, 1400);
-    };
-
-    fileInput.addEventListener('change', (event) => {
-      const [file] = event.target.files;
-      handleFile(file);
-    });
-
-    ['dragenter', 'dragover'].forEach((eventName) => {
-      dropzone.addEventListener(eventName, (event) => {
-        event.preventDefault();
-        dropzone.classList.add('dragover');
-      });
-    });
-
-    ['dragleave', 'drop'].forEach((eventName) => {
-      dropzone.addEventListener(eventName, () => {
-        dropzone.classList.remove('dragover');
-      });
-    });
-
-    dropzone.addEventListener('drop', (event) => {
-      event.preventDefault();
-      const file = event.dataTransfer.files[0];
-      handleFile(file);
-    });
-
-    dropzone.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        fileInput.click();
-      }
-    });
-
-    const choiceButtons = document.querySelectorAll('.choice-btn');
-    const questionCount = document.getElementById('questionCount');
-    const difficulty = document.getElementById('difficulty');
-    const generateBtn = document.getElementById('generateBtn');
-    const outputBox = document.getElementById('outputBox');
-    const answerToggle = document.getElementById('answerToggle');
-    const answerToggleWrap = document.getElementById('answerToggleWrap');
-    const copyBtn = document.getElementById('copyBtn');
-    const downloadBtn = document.getElementById('downloadBtn');
-
-    let selectedType = 'practice';
-    let generatedData = { withAnswers: '', withoutAnswers: '' };
-
-    choiceButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        choiceButtons.forEach((btn) => btn.classList.remove('active'));
-        button.classList.add('active');
-        selectedType = button.dataset.type;
-      });
-    });
-
-    const buildPractice = (count, level) => {
-      const questions = [];
-      const answers = [];
-      for (let i = 1; i <= count; i++) {
-        questions.push(`${i}. Explain the role of ATP in cellular respiration (${level}).`);
-        answers.push(`${i}. ATP stores and transfers energy released from glucose breakdown.`);
-      }
-      return {
-        withoutAnswers: `Practice Questions (${level})\n\n${questions.join('\n')}`,
-        withAnswers: `Practice Questions (${level})\n\n${questions.join('\n')}\n\nAnswer Key\n${answers.join('\n')}`
-      };
-    };
-
-    const buildMcq = (count, level) => {
-      const mcqs = [];
-      const key = [];
-      for (let i = 1; i <= count; i++) {
-        mcqs.push(`${i}. Which stage produces the highest ATP output?\nA) Glycolysis\nB) Krebs Cycle\nC) Electron Transport Chain\nD) Fermentation`);
-        key.push(`${i}. C`);
-      }
-      return {
-        withoutAnswers: `Multiple-Choice Set (${level})\n\n${mcqs.join('\n\n')}`,
-        withAnswers: `Multiple-Choice Set (${level})\n\n${mcqs.join('\n\n')}\n\nAnswer Key\n${key.join('\n')}`
-      };
-    };
-
-    const buildSummary = (level) => ({
-      withoutAnswers:
-`Study Summary (${level})
-
-Cellular respiration converts glucose into usable ATP energy through three linked stages:
-1) Glycolysis in the cytoplasm
-2) Krebs cycle in the mitochondrial matrix
-3) Electron transport chain across the inner membrane
-
-Focus points:
-- Track where each stage happens
-- Understand why oxygen matters
-- Relate NADH/FADH2 to ATP yield`,
-      withAnswers: ''
-    });
-
-    generateBtn.addEventListener('click', () => {
-      const count = Number(questionCount.value);
-      const level = difficulty.value;
-
-      if (selectedType === 'practice') {
-        generatedData = buildPractice(count, level);
-        answerToggleWrap.style.display = 'inline-flex';
-      } else if (selectedType === 'mcq') {
-        generatedData = buildMcq(count, level);
-        answerToggleWrap.style.display = 'inline-flex';
-      } else {
-        generatedData = buildSummary(level);
-        answerToggle.checked = false;
-        answerToggleWrap.style.display = 'none';
-      }
-
-      outputBox.textContent = generatedData.withoutAnswers || 'No output generated.';
-    });
-
-    answerToggle.addEventListener('change', () => {
-      outputBox.textContent = answerToggle.checked && generatedData.withAnswers
-        ? generatedData.withAnswers
-        : generatedData.withoutAnswers;
-    });
-
-    copyBtn.addEventListener('click', async () => {
-      const text = outputBox.textContent.trim();
-      if (!text) return;
-      try {
-        await navigator.clipboard.writeText(text);
-        copyBtn.textContent = 'Copied';
-        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1200);
-      } catch {
-        copyBtn.textContent = 'Copy unavailable';
-        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 1400);
-      }
-    });
-
-    downloadBtn.addEventListener('click', () => {
-      const text = outputBox.textContent.trim();
-      if (!text) return;
-      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'examsnap-demo-output.txt';
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      URL.revokeObjectURL(url);
-    });
-  </script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
