@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="MoveMeter is an AI-powered relocation intelligence tool for evaluating financial readiness before moving cities."
+      content="MoveMeter is an immersive AI relocation intelligence experience with guided onboarding and premium analysis."
     />
-    <title>MoveMeter | AI-Powered Relocation Intelligence</title>
+    <title>MoveMeter | Relocation Intelligence Journey</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,82 +17,75 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="bg-blur blur-1" aria-hidden="true"></div>
-    <div class="bg-blur blur-2" aria-hidden="true"></div>
+    <div class="ambient ambient-a" aria-hidden="true"></div>
+    <div class="ambient ambient-b" aria-hidden="true"></div>
 
-    <header class="hero container">
-      <span class="top-badge">AI-Powered Relocation Intelligence</span>
-      <h1>Thinking about relocating? Get a real affordability verdict in 60 seconds.</h1>
-      <p>
-        MoveMeter models your monthly budget, tax exposure, visa fit, stress-test outcomes,
-        and practical next steps so you can relocate with confidence.
-      </p>
-    </header>
+    <main>
+      <section id="onboarding-screen" class="screen active">
+        <header class="hero">
+          <p class="eyebrow">MoveMeter AI Relocation Intelligence</p>
+          <h1>Your relocation journey starts with clarity, not guesswork.</h1>
+        </header>
 
-    <main class="container">
-      <section class="glass-card input-card" aria-labelledby="calculator-heading">
-        <h2 id="calculator-heading">Relocation Inputs</h2>
-        <form id="calculator-form" class="form-grid">
-          <label>
-            Monthly Income (USD)
-            <input id="income" type="number" min="0" step="100" placeholder="e.g. 6500" required />
-          </label>
+        <div class="flow-shell glass">
+          <div class="progress-wrap">
+            <div class="progress-labels">
+              <span id="step-label">Step 1 of 5</span>
+              <span id="step-title">About You</span>
+            </div>
+            <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+          </div>
 
-          <label>
-            Savings (USD)
-            <input id="savings" type="number" min="0" step="100" placeholder="e.g. 18000" required />
-          </label>
+          <form id="flow-form" novalidate>
+            <div id="step-container" class="step-container"></div>
 
-          <label>
-            City
-            <select id="city" required></select>
-          </label>
-
-          <label>
-            Lifestyle Level
-            <select id="lifestyle" required>
-              <option value="Basic">Basic</option>
-              <option value="Standard" selected>Standard</option>
-              <option value="Comfortable">Comfortable</option>
-            </select>
-          </label>
-
-          <button type="submit" class="btn-primary">Generate AI Relocation Report</button>
-        </form>
+            <div class="flow-actions">
+              <button type="button" id="back-btn" class="btn btn-ghost">Back</button>
+              <button type="button" id="next-btn" class="btn btn-primary">Continue</button>
+            </div>
+          </form>
+        </div>
       </section>
 
-      <section id="output-grid" class="output-grid" hidden>
-        <article id="results" class="glass-card" aria-live="polite">
-          <div class="results-header">
-            <h2>AI Relocation Report</h2>
-            <span id="verdict-badge" class="status-badge">Awaiting analysis</span>
-          </div>
+      <section id="analysis-screen" class="screen">
+        <div class="analysis-wrap">
+          <header class="analysis-hero glass reveal">
+            <p class="eyebrow">AI Advisory Report</p>
+            <h2 id="analysis-title">Your Relocation Intelligence Report</h2>
+            <div class="score-row">
+              <div class="score-ring" id="score-ring"><span id="score-value">0</span></div>
+              <div>
+                <p class="muted">Relocation Readiness Score</p>
+                <p id="score-summary" class="score-summary"></p>
+              </div>
+            </div>
+          </header>
 
-          <div id="loading-state" class="loading-state" hidden>
-            <span class="loader" aria-hidden="true"></span>
-            <p>Running MoveMeter AI model…</p>
-          </div>
+          <section id="section-summary" class="glass reveal"></section>
+          <section id="section-financial" class="glass reveal"></section>
+          <section id="section-runway" class="glass reveal"></section>
+          <section id="section-stress" class="glass reveal"></section>
+          <section id="section-visa" class="glass reveal"></section>
+          <section id="section-strategy" class="glass reveal"></section>
+          <section id="section-alternatives" class="glass reveal"></section>
+          <section id="section-final" class="glass reveal"></section>
+        </div>
 
-          <p id="result-intro" class="result-intro"></p>
-          <div id="report-root" class="report-root"></div>
-        </article>
-
-        <aside id="chat-panel" class="glass-card chat-panel" hidden>
-          <div class="chat-header">
-            <h3>MoveMeter AI Advisor (Instant Answers)</h3>
-            <p>Tap a question. Get fast, personalized advice from your report.</p>
-          </div>
-
-          <div class="quick-actions" id="quick-actions"></div>
-          <div id="chat-messages" class="chat-messages"></div>
-          <div id="chat-questions" class="chat-questions"></div>
+        <aside id="advisor" class="advisor glass reveal">
+          <h3>MoveMeter AI Advisor</h3>
+          <p>Tap a question for personalized strategy.</p>
+          <div id="advisor-buttons" class="advisor-buttons"></div>
+          <div id="advisor-reply" class="advisor-reply">Choose a question to start.</div>
         </aside>
       </section>
     </main>
 
-    <footer class="container footer">
-      <p>MoveMeter · Built for remote professionals planning smart relocations.</p>
-    </footer>
+    <div id="analysis-loader" class="analysis-loader" hidden>
+      <div class="loader-core glass">
+        <div class="pulse"></div>
+        <p id="loader-line">Analyzing cost structures...</p>
+      </div>
+    </div>
 
     <script src="script.js"></script>
   </body>
