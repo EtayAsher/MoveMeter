@@ -1,131 +1,51 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-    <title>KosherTravel</title>
-    <style>
-      :root {
-        --bg: #0d0d0e;
-        --card: #17171a;
-        --text: #f7f3e8;
-        --muted: #bcb3a0;
-        --gold: #cba967;
-        --gold-soft: rgba(203, 169, 103, 0.2);
-      }
-
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        background: radial-gradient(circle at top, #1a1a1e 0%, var(--bg) 45%);
-        color: var(--text);
-      }
-
-      .wrap {
-        width: min(980px, 92vw);
-        margin: 0 auto;
-        padding: 64px 0 36px;
-      }
-
-      h1 {
-        margin: 0;
-        font-size: clamp(2rem, 7vw, 3.8rem);
-        letter-spacing: 0.02em;
-      }
-
-      .subtitle {
-        color: var(--gold);
-        font-size: clamp(1rem, 3vw, 1.3rem);
-        margin: 10px 0 0;
-      }
-
-      .lead {
-        margin: 20px 0 34px;
-        max-width: 65ch;
-        color: var(--muted);
-        font-size: clamp(1rem, 2.5vw, 1.1rem);
-        line-height: 1.6;
-      }
-
-      .btns {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 34px;
-      }
-
-      .btn {
-        border: 1px solid var(--gold-soft);
-        background: linear-gradient(180deg, #232327, #19191c);
-        color: #e4d2ad;
-        padding: 12px 18px;
-        border-radius: 12px;
-        font-weight: 600;
-        opacity: 0.55;
-        cursor: not-allowed;
-      }
-
-      .grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 14px;
-      }
-
-      .tile {
-        border: 1px solid var(--gold-soft);
-        background: var(--card);
-        padding: 18px;
-        border-radius: 14px;
-        font-weight: 600;
-      }
-
-      footer {
-        margin-top: 34px;
-        color: var(--muted);
-        font-size: 0.92rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.06);
-        padding-top: 16px;
-      }
-
-      .stamp {
-        margin-top: 8px;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        color: #d6c09a;
-      }
-
-      @media (max-width: 640px) {
-        .wrap { padding-top: 42px; }
-        .grid { grid-template-columns: 1fr; }
-      }
-    </style>
-  </head>
-  <body>
-    <main class="wrap">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KosherTravel — Finder + Map + Shabbat Mode</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/app.css" />
+</head>
+<body class="home-page">
+  <div class="bg-glow"></div>
+  <main class="home-shell">
+    <section class="hero-card glass">
+      <p class="eyebrow">Kosher Travel Tools</p>
       <h1>KosherTravel</h1>
       <p class="subtitle">Finder + Map + Shabbat Mode</p>
-      <p class="lead">Find verified kosher essentials &amp; plan walkable Shabbat areas — fast.</p>
+      <p class="hero-text">Discover kosher restaurants, groceries, chabad houses, and mikvehs with a premium city map experience.</p>
 
-      <div class="btns" aria-label="coming soon actions">
-        <button class="btn" type="button" disabled>Open Map (Coming Soon)</button>
-        <button class="btn" type="button" disabled>Admin (Coming Soon)</button>
-      </div>
+      <label for="citySelect" class="field-label">Choose your city</label>
+      <select id="citySelect" class="input-select"></select>
 
-      <section class="grid" aria-label="core categories">
-        <article class="tile">Chabad Houses</article>
-        <article class="tile">Kosher Restaurants</article>
-        <article class="tile">Kosher Groceries</article>
-        <article class="tile">Mikveh</article>
-      </section>
+      <button id="openMapBtn" class="btn btn-primary">Open Map</button>
+      <p class="helper">Tip: Your selected city is saved for next time.</p>
+    </section>
+  </main>
 
-      <footer>
-        <div>MVP is live.</div>
-        <div class="stamp">Build: KosherTravel Landing v1 — 2026-02-18 20:10</div>
-      </footer>
-    </main>
-  </body>
+  <script src="assets/app.js"></script>
+  <script>
+    (async function initHome() {
+      const citySelect = document.getElementById('citySelect');
+      const openMapBtn = document.getElementById('openMapBtn');
+
+      const cities = await KT.fetchJSON('data/cities.json');
+      const savedCity = KT.storage.get('koshertravel_city', cities[0]?.id || 'london');
+
+      citySelect.innerHTML = cities
+        .map((city) => `<option value="${city.id}">${city.name}, ${city.country}</option>`)
+        .join('');
+
+      citySelect.value = cities.some((c) => c.id === savedCity) ? savedCity : cities[0].id;
+
+      openMapBtn.addEventListener('click', () => {
+        KT.storage.set('koshertravel_city', citySelect.value);
+        window.location.href = `map.html?city=${encodeURIComponent(citySelect.value)}`;
+      });
+    })();
+  </script>
+</body>
 </html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KosherTravel Map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="assets/app.css" />
+</head>
+<body class="map-page">
+  <div class="bg-glow"></div>
+  <header class="topbar glass">
+    <div class="brand">KosherTravel</div>
+    <div class="topbar-controls">
+      <select id="citySelect" class="input-select compact"></select>
+      <div class="chips" id="categoryChips"></div>
+      <label class="toggle-wrap">
+        <span>Shabbat Mode</span>
+        <input type="checkbox" id="shabbatToggle" />
+      </label>
+      <a href="admin.html" class="btn btn-ghost compact">Admin</a>
+    </div>
+  </header>
+
+  <section id="shabbatPanel" class="shabbat-panel glass hidden">
+    <button id="setOriginBtn" class="btn btn-secondary">Set Shabbat Origin</button>
+    <label for="radiusSlider">Radius: <strong id="radiusValue">1.2 km</strong></label>
+    <input id="radiusSlider" type="range" min="0.5" max="2" step="0.1" value="1.2" />
+    <p id="originHint" class="helper">Set your hotel location to filter walkable places.</p>
+  </section>
+
+  <main class="map-layout">
+    <section class="results-panel glass" id="resultsPanel">
+      <div class="mobile-panel-header">
+        <h2>Places</h2>
+        <button id="toggleResultsBtn" class="btn btn-ghost compact">Hide</button>
+      </div>
+      <div id="resultsList" class="results-list"></div>
+    </section>
+    <section class="map-panel glass">
+      <button id="showResultsBtn" class="btn btn-secondary mobile-only">Show List</button>
+      <div id="map"></div>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="assets/app.js"></script>
+  <script src="assets/map.js"></script>
+</body>
+</html>

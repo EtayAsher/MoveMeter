@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KosherTravel Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="assets/app.css" />
+</head>
+<body class="admin-page">
+  <div class="bg-glow"></div>
+  <main id="adminApp" class="admin-shell hidden">
+    <header class="glass admin-header">
+      <h1>KosherTravel Admin</h1>
+      <p>Local static CMS (browser only)</p>
+      <div class="admin-actions">
+        <button id="exportJsonBtn" class="btn btn-secondary">Export JSON</button>
+        <label class="btn btn-ghost file-label">Import JSON<input id="importJsonInput" type="file" accept="application/json" /></label>
+        <button id="resetOverrideBtn" class="btn btn-ghost">Reset Override</button>
+      </div>
+    </header>
+
+    <section class="glass admin-content">
+      <div class="admin-grid">
+        <aside>
+          <label for="adminCitySelect" class="field-label">City</label>
+          <select id="adminCitySelect" class="input-select"></select>
+          <div id="adminPlacesList" class="admin-places-list"></div>
+        </aside>
+
+        <section>
+          <h2 id="formTitle">Add new place</h2>
+          <form id="placeForm" class="admin-form">
+            <input type="hidden" id="placeId" />
+            <label>Name<input id="name" required /></label>
+            <label>Category
+              <select id="category" required>
+                <option value="restaurant">Restaurant</option>
+                <option value="grocery">Grocery</option>
+                <option value="chabad">Chabad</option>
+                <option value="mikveh">Mikveh</option>
+              </select>
+            </label>
+            <label>Address<input id="address" required /></label>
+            <label>Phone<input id="phone" /></label>
+            <label>Website<input id="website" /></label>
+            <div class="latlng-row">
+              <label>Latitude<input id="lat" type="number" step="any" required /></label>
+              <label>Longitude<input id="lng" type="number" step="any" required /></label>
+            </div>
+            <label class="checkbox-label"><input id="isVerified" type="checkbox" /> Verified</label>
+            <label class="checkbox-label"><input id="isFeatured" type="checkbox" /> Featured</label>
+            <label>Featured Rank<input id="featuredRank" type="number" min="1" max="10" /></label>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Save Place</button>
+              <button type="button" id="clearFormBtn" class="btn btn-ghost">Clear</button>
+            </div>
+          </form>
+
+          <div class="mini-map-wrap">
+            <div class="mini-map-header">
+              <h3>Pick on map</h3>
+              <p>Click mini map to set latitude/longitude</p>
+            </div>
+            <div id="miniMap"></div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <section id="adminDenied" class="access-denied hidden glass">
+    <h1>Access denied</h1>
+    <p>Incorrect passcode.</p>
+    <a href="index.html" class="btn btn-secondary">Back to Home</a>
+  </section>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="assets/app.js"></script>
+  <script src="assets/admin.js"></script>
+</body>
+</html>
