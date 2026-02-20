@@ -58,12 +58,19 @@ window.KTUI = (() => {
 
   function categoryLabel(category) {
     return {
-      restaurant: 'Restaurant',
-      grocery: 'Grocery',
-      chabad: 'Chabad',
-      mikveh: 'Mikveh'
+      restaurant: 'Kosher Restaurants',
+      grocery: 'Kosher Groceries',
+      chabad: 'Chabad Houses'
     }[category] || category;
   }
 
-  return { qs, qsa, toast, formatDistance, normalizeWebsite, categoryLabel };
+  function debounce(fn, delay = 180) {
+    let timeout;
+    return (...args) => {
+      window.clearTimeout(timeout);
+      timeout = window.setTimeout(() => fn(...args), delay);
+    };
+  }
+
+  return { qs, qsa, toast, formatDistance, normalizeWebsite, categoryLabel, debounce };
 })();

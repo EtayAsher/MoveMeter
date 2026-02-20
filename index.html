@@ -22,22 +22,26 @@
           <label for="citySelect">City</label>
           <select id="citySelect" class="input-inline"></select>
           <button id="shabbatPlannerBtn" class="btn btn-primary" type="button">Shabbat Planner</button>
-          <a href="admin.html" class="btn btn-ghost">Admin</a>
         </div>
+      </div>
+      <div class="toolbar-row controls-row">
+        <input id="searchInput" type="search" placeholder="Search by place name or address" aria-label="Search places" />
+        <label class="toggle"><input id="featuredOnlyToggle" type="checkbox" checked /> Show Featured first</label>
+        <label class="toggle"><input id="verifiedOnlyToggle" type="checkbox" /> Show Verified only</label>
       </div>
       <div id="categoryChips" class="filters-row"></div>
     </header>
 
     <section class="layout-grid">
+      <section class="panel map-panel">
+        <div id="map" aria-label="Map"></div>
+      </section>
       <section class="panel results-panel">
         <div class="results-header">
           <h2>Places</h2>
           <p id="resultCount" class="muted"></p>
         </div>
         <div id="resultsList" class="results-list"></div>
-      </section>
-      <section class="panel map-panel">
-        <div id="map" aria-label="Map"></div>
       </section>
     </section>
   </main>

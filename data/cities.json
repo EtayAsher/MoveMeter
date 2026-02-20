@@ -1,82 +1,26 @@
 [
-  {
-    "id": "london",
-    "name": "London",
-    "country": "UK",
-    "center": [
-      51.5074,
-      -0.1278
-    ],
-    "zoom": 12
-  },
-  {
-    "id": "new-york",
-    "name": "New York",
-    "country": "USA",
-    "center": [
-      40.7128,
-      -74.006
-    ],
-    "zoom": 12
-  },
-  {
-    "id": "berlin",
-    "name": "Berlin",
-    "country": "Germany",
-    "center": [
-      52.52,
-      13.405
-    ],
-    "zoom": 12
-  },
-  {
-    "id": "athens",
-    "name": "Athens",
-    "country": "Greece",
-    "center": [
-      37.9838,
-      23.7275
-    ],
-    "zoom": 12
-  },
-  {
-    "id": "los-angeles",
-    "name": "Los Angeles",
-    "country": "USA",
-    "center": [
-      34.0522,
-      -118.2437
-    ],
-    "zoom": 11
-  },
-  {
-    "id": "miami",
-    "name": "Miami",
-    "country": "USA",
-    "center": [
-      25.7617,
-      -80.1918
-    ],
-    "zoom": 12
-  },
-  {
-    "id": "rome",
-    "name": "Rome",
-    "country": "Italy",
-    "center": [
-      41.9028,
-      12.4964
-    ],
-    "zoom": 12
-  },
-  {
-    "id": "paris",
-    "name": "Paris",
-    "country": "France",
-    "center": [
-      48.8566,
-      2.3522
-    ],
-    "zoom": 12
-  }
+  { "id": "london", "name": "London", "country": "UK", "center": [51.5074, -0.1278], "zoom": 12 },
+  { "id": "paris", "name": "Paris", "country": "France", "center": [48.8566, 2.3522], "zoom": 12 },
+  { "id": "rome", "name": "Rome", "country": "Italy", "center": [41.9028, 12.4964], "zoom": 12 },
+  { "id": "berlin", "name": "Berlin", "country": "Germany", "center": [52.52, 13.405], "zoom": 12 },
+  { "id": "athens", "name": "Athens", "country": "Greece", "center": [37.9838, 23.7275], "zoom": 12 },
+  { "id": "barcelona", "name": "Barcelona", "country": "Spain", "center": [41.3851, 2.1734], "zoom": 12 },
+  { "id": "madrid", "name": "Madrid", "country": "Spain", "center": [40.4168, -3.7038], "zoom": 12 },
+  { "id": "amsterdam", "name": "Amsterdam", "country": "Netherlands", "center": [52.3676, 4.9041], "zoom": 12 },
+  { "id": "vienna", "name": "Vienna", "country": "Austria", "center": [48.2082, 16.3738], "zoom": 12 },
+  { "id": "prague", "name": "Prague", "country": "Czech Republic", "center": [50.0755, 14.4378], "zoom": 12 },
+  { "id": "budapest", "name": "Budapest", "country": "Hungary", "center": [47.4979, 19.0402], "zoom": 12 },
+  { "id": "lisbon", "name": "Lisbon", "country": "Portugal", "center": [38.7223, -9.1393], "zoom": 12 },
+  { "id": "milan", "name": "Milan", "country": "Italy", "center": [45.4642, 9.19], "zoom": 12 },
+  { "id": "venice", "name": "Venice", "country": "Italy", "center": [45.4408, 12.3155], "zoom": 13 },
+  { "id": "florence", "name": "Florence", "country": "Italy", "center": [43.7696, 11.2558], "zoom": 13 },
+  { "id": "brussels", "name": "Brussels", "country": "Belgium", "center": [50.8503, 4.3517], "zoom": 12 },
+  { "id": "zurich", "name": "Zurich", "country": "Switzerland", "center": [47.3769, 8.5417], "zoom": 12 },
+  { "id": "geneva", "name": "Geneva", "country": "Switzerland", "center": [46.2044, 6.1432], "zoom": 12 },
+  { "id": "copenhagen", "name": "Copenhagen", "country": "Denmark", "center": [55.6761, 12.5683], "zoom": 12 },
+  { "id": "stockholm", "name": "Stockholm", "country": "Sweden", "center": [59.3293, 18.0686], "zoom": 12 },
+  { "id": "dublin", "name": "Dublin", "country": "Ireland", "center": [53.3498, -6.2603], "zoom": 12 },
+  { "id": "new-york", "name": "New York", "country": "USA", "center": [40.7128, -74.006], "zoom": 12 },
+  { "id": "los-angeles", "name": "Los Angeles", "country": "USA", "center": [34.0522, -118.2437], "zoom": 11 },
+  { "id": "miami", "name": "Miami", "country": "USA", "center": [25.7617, -80.1918], "zoom": 12 }
 ]

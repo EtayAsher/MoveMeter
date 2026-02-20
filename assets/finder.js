@@ -1,14 +1,16 @@
 window.KTFinder = (() => {
   const CATEGORY_META = {
-    restaurant: { label: 'Restaurant', icon: '🍽️', color: '#4869b8' },
-    grocery: { label: 'Grocery', icon: '🛒', color: '#4f8b7a' },
-    chabad: { label: 'Chabad', icon: '🕍', color: '#8d6bb5' },
-    mikveh: { label: 'Mikveh', icon: '💧', color: '#3f8ea8' }
+    restaurant: { label: 'Kosher Restaurants', icon: '🍽️', color: '#4869b8' },
+    grocery: { label: 'Kosher Groceries', icon: '🛒', color: '#4f8b7a' },
+    chabad: { label: 'Chabad Houses', icon: '🕍', color: '#8d6bb5' }
   };
 
   async function initFinder() {
     const citySelect = KTUI.qs('#citySelect');
     const chipsWrap = KTUI.qs('#categoryChips');
+    const searchInput = KTUI.qs('#searchInput');
+    const featuredOnlyToggle = KTUI.qs('#featuredOnlyToggle');
+    const verifiedOnlyToggle = KTUI.qs('#verifiedOnlyToggle');
     const results = KTUI.qs('#resultsList');
     const resultCount = KTUI.qs('#resultCount');
     const shabbatBtn = KTUI.qs('#shabbatPlannerBtn');
@@ -17,15 +19,12 @@ window.KTFinder = (() => {
     let places = [];
     let selectedCity = '';
     let selectedCategories = new Set();
+    let searchTerm = '';
     let map;
     let markersLayer;
 
     try {
-      [cities, places] = await Promise.all([
-        KTData.fetchCities(),
-        KTData.getActivePlacesDataset()
-      ]);
-
+      [cities, places] = await Promise.all([KTData.fetchCities(), KTData.getActivePlacesDataset()]);
       selectedCity = restoreCity(cities);
       citySelect.innerHTML = cities.map((city) => `<option value="${city.id}">${city.name}, ${city.country}</option>`).join('');
       citySelect.value = selectedCity;
@@ -57,6 +56,24 @@ window.KTFinder = (() => {
         render();
       });
 
+      searchInput.addEventListener('input', KTUI.debounce(() => {
+        searchTerm = searchInput.value.trim().toLowerCase();
+        render();
+      }, 160));
+      featuredOnlyToggle.addEventListener('change', render);
+      verifiedOnlyToggle.addEventListener('change', render);
+
+      results.addEventListener('click', async (event) => {
+        const copyBtn = event.target.closest('[data-copy-address]');
+        if (!copyBtn) return;
+        try {
+          await navigator.clipboard.writeText(copyBtn.dataset.copyAddress);
+          KTUI.toast('Address copied.', 'success');
+        } catch (_error) {
+          KTUI.toast('Clipboard unavailable.', 'warning');
+        }
+      });
+
       shabbatBtn.addEventListener('click', () => {
         if (!selectedCity) {
           KTUI.toast('Choose a city first', 'warning');
@@ -79,10 +96,14 @@ window.KTFinder = (() => {
 
       let list = places.filter((place) => place.cityId === city.id);
       if (selectedCategories.size) list = list.filter((place) => selectedCategories.has(place.category));
-      list = KTData.sortPlaces(list);
+      if (verifiedOnlyToggle.checked) list = list.filter((place) => place.isVerified);
+      if (searchTerm) {
+        list = list.filter((place) => (`${place.name} ${place.address}`).toLowerCase().includes(searchTerm));
+      }
+      list = featuredOnlyToggle.checked ? KTData.sortPlaces(list) : [...list].sort((a, b) => a.name.localeCompare(b.name));
 
       renderResults(list);
-      renderMarkers(list);
+      requestAnimationFrame(() => renderMarkers(list));
       resultCount.textContent = `${list.length} places`;
     }
 
@@ -94,7 +115,7 @@ window.KTFinder = (() => {
 
     function renderResults(list) {
       if (!list.length) {
-        results.innerHTML = '<p class="empty-state">No places match this city + filter selection.</p>';
+        results.innerHTML = '<p class="empty-state">No places match your city and filters.</p>';
         return;
       }
 
@@ -113,9 +134,11 @@ window.KTFinder = (() => {
         <h3>${place.name}</h3>
         <p class="muted">${place.address}</p>
         <p class="muted">${meta.icon} ${meta.label}${place.phone ? ` • ${place.phone}` : ''}</p>
+        ${place.notes ? `<p class="muted note-line">${place.notes}</p>` : ''}
         <div class="card-actions">
           ${hasWebsite ? `<a class="btn btn-subtle" href="${place.website}" target="_blank" rel="noopener noreferrer">Website</a>` : ''}
-          <a class="btn btn-primary" href="${KTData.getDirectionsUrl(place)}" target="_blank" rel="noopener noreferrer">Directions</a>
+          <button class="btn btn-ghost" type="button" data-copy-address="${place.address.replace(/"/g, '&quot;')}">Copy address</button>
+          <a class="btn btn-primary" href="${KTData.getDirectionsUrl(place)}" target="_blank" rel="noopener noreferrer">Walking Directions</a>
         </div>
       </article>`;
     }

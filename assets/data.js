@@ -26,13 +26,15 @@ window.KTData = (() => {
   }
 
   function sanitizePlaces(places) {
-    return places.map((place) => ({
-      ...place,
-      lat: Number(place.lat),
-      lng: Number(place.lng),
-      featuredRank: place.featuredRank == null ? null : Number(place.featuredRank),
-      website: window.KTUI.normalizeWebsite(place.website)
-    }));
+    return places
+      .map((place) => ({
+        ...place,
+        lat: Number.parseFloat(place.lat),
+        lng: Number.parseFloat(place.lng),
+        featuredRank: place.featuredRank == null ? null : Number(place.featuredRank),
+        website: window.KTUI.normalizeWebsite(place.website)
+      }))
+      .filter((place) => Number.isFinite(place.lat) && Number.isFinite(place.lng));
   }
 
   const storage = {
@@ -83,11 +85,15 @@ window.KTData = (() => {
   }
 
   function getDirectionsUrl(place, origin) {
-    const destination = `${place.lat},${place.lng}`;
-    if (origin) {
-      return `https://www.google.com/maps/dir/?api=1&origin=${origin.lat},${origin.lng}&destination=${destination}&travelmode=walking`;
+    const destLat = Number.parseFloat(place.lat);
+    const destLng = Number.parseFloat(place.lng);
+    if (!Number.isFinite(destLat) || !Number.isFinite(destLng)) return 'https://www.google.com/maps';
+    const destination = `${destLat},${destLng}`;
+    if (origin && Number.isFinite(origin.lat) && Number.isFinite(origin.lng)) {
+      const originText = `${Number.parseFloat(origin.lat)},${Number.parseFloat(origin.lng)}`;
+      return `https://www.google.com/maps/dir/?api=1&origin=${originText}&destination=${destination}&travelmode=walking`;
     }
-    return `https://www.google.com/maps/search/?api=1&query=${destination}`;
+    return `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=walking`;
   }
 
   return { fetchCities, fetchPlaces, getActivePlacesDataset, storage, KEYS, haversineDistanceKm, sortPlaces, getDirectionsUrl };
