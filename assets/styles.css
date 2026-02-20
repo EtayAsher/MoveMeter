@@ -100,3 +100,8 @@ input, select { width: 100%; border: 1px solid var(--border); border-radius: 12p
   .filters-row { flex-wrap: nowrap; }
   .top-toolbar { top: 0; border-radius: 0 0 16px 16px; }
 }
+
+
+.shabbat-steps { display: grid; gap: 10px; margin-bottom: 12px; }
+.step-card { border: 1px solid #e9eaf0; border-radius: 12px; padding: 10px; background: #fff; }
+.step-card h3 { margin: 0 0 6px; font-size: 1rem; }

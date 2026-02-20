@@ -16,7 +16,7 @@ window.KTFinder = (() => {
     const shabbatBtn = KTUI.qs('#shabbatPlannerBtn');
 
     let cities = [];
-    let places = [];
+    let cityPlaces = [];
     let selectedCity = '';
     let selectedCategories = new Set();
     let searchTerm = '';
@@ -24,7 +24,7 @@ window.KTFinder = (() => {
     let markersLayer;
 
     try {
-      [cities, places] = await Promise.all([KTData.fetchCities(), KTData.getActivePlacesDataset()]);
+      cities = await KTData.fetchCities();
       selectedCity = restoreCity(cities);
       citySelect.innerHTML = cities.map((city) => `<option value="${city.id}">${city.name}, ${city.country}</option>`).join('');
       citySelect.value = selectedCity;
@@ -36,10 +36,10 @@ window.KTFinder = (() => {
       }).addTo(map);
       markersLayer = L.layerGroup().addTo(map);
 
-      citySelect.addEventListener('change', () => {
+      citySelect.addEventListener('change', async () => {
         selectedCity = citySelect.value;
         KTData.storage.set(KTData.KEYS.city, selectedCity);
-        render();
+        await render();
       });
 
       chipsWrap.addEventListener('click', (event) => {
@@ -53,15 +53,15 @@ window.KTFinder = (() => {
           selectedCategories.add(category);
           chip.classList.add('active');
         }
-        render();
+        renderListOnly();
       });
 
       searchInput.addEventListener('input', KTUI.debounce(() => {
         searchTerm = searchInput.value.trim().toLowerCase();
-        render();
+        renderListOnly();
       }, 160));
-      featuredOnlyToggle.addEventListener('change', render);
-      verifiedOnlyToggle.addEventListener('change', render);
+      featuredOnlyToggle.addEventListener('change', renderListOnly);
+      verifiedOnlyToggle.addEventListener('change', renderListOnly);
 
       results.addEventListener('click', async (event) => {
         const copyBtn = event.target.closest('[data-copy-address]');
@@ -82,24 +82,27 @@ window.KTFinder = (() => {
         window.location.href = `shabbat.html?city=${encodeURIComponent(selectedCity)}`;
       });
 
-      render();
+      await render();
     } catch (error) {
       console.error(error);
       results.innerHTML = '<p class="empty-state">Unable to load finder data.</p>';
     }
 
-    function render() {
+    async function render() {
       const city = cities.find((entry) => entry.id === selectedCity) || cities[0];
       if (!city) return;
       KTData.storage.set(KTData.KEYS.city, city.id);
       map.setView(city.center, city.zoom);
+      const loaded = await KTData.loadCityPlaces(city);
+      cityPlaces = loaded.publicPlaces;
+      renderListOnly();
+    }
 
-      let list = places.filter((place) => place.cityId === city.id);
+    function renderListOnly() {
+      let list = [...cityPlaces];
       if (selectedCategories.size) list = list.filter((place) => selectedCategories.has(place.category));
       if (verifiedOnlyToggle.checked) list = list.filter((place) => place.isVerified);
-      if (searchTerm) {
-        list = list.filter((place) => (`${place.name} ${place.address}`).toLowerCase().includes(searchTerm));
-      }
+      if (searchTerm) list = list.filter((place) => (`${place.name} ${place.address}`).toLowerCase().includes(searchTerm));
       list = featuredOnlyToggle.checked ? KTData.sortPlaces(list) : [...list].sort((a, b) => a.name.localeCompare(b.name));
 
       renderResults(list);
@@ -115,7 +118,7 @@ window.KTFinder = (() => {
 
     function renderResults(list) {
       if (!list.length) {
-        results.innerHTML = '<p class="empty-state">No places match your city and filters.</p>';
+        results.innerHTML = '<p class="empty-state">No verified map-ready places match this city and filters yet.</p>';
         return;
       }
 

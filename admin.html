@@ -14,15 +14,15 @@
   <main id="adminApp" class="admin-shell hidden">
     <header class="panel admin-header">
       <h1>KosherTravel Admin</h1>
-      <p class="muted">Local static CMS (browser only)</p>
-      <p class="note">Website link is optional. If unknown, leave empty. The Website button will hide automatically.</p>
+      <p class="muted">Only verified coordinates are shown publicly. Use geocoding to fix unmapped items.</p>
       <div class="toolbar-row">
         <div class="card-actions">
+          <button id="refreshOsmBtn" class="btn btn-primary" type="button">Refresh OSM Data</button>
           <button id="exportJsonBtn" class="btn btn-subtle" type="button">Export JSON</button>
           <label class="btn btn-ghost file-label">Import JSON<input id="importJsonInput" type="file" accept="application/json" /></label>
           <button id="resetOverrideBtn" class="btn btn-ghost" type="button">Reset Override</button>
         </div>
-        <a href="index.html" class="btn btn-primary">Back to Finder</a>
+        <a href="index.html" class="btn btn-ghost">Back to Finder</a>
       </div>
     </header>
 
@@ -30,11 +30,19 @@
       <aside class="panel admin-panel">
         <label for="adminCitySelect">City</label>
         <select id="adminCitySelect"></select>
+
+        <h3>Mapped Places</h3>
         <div id="adminPlacesList" class="admin-places-list"></div>
+
+        <h3>Unmapped</h3>
+        <div id="unmappedList" class="admin-places-list"></div>
+
+        <h3>Flagged items</h3>
+        <div id="flaggedList" class="admin-places-list"></div>
       </aside>
 
       <section class="panel admin-panel">
-        <h2 id="formTitle">Add new place</h2>
+        <h2 id="formTitle">Add / Edit place</h2>
         <form id="placeForm" class="admin-form">
           <input type="hidden" id="placeId" />
           <label>Name<input id="name" required /></label>
@@ -48,9 +56,10 @@
           <label>Address<input id="address" required /></label>
           <label>Phone<input id="phone" /></label>
           <label>Website (optional)<input id="website" placeholder="https://domain.com" /></label>
+          <label>Source<input id="source" placeholder="osm/manual" /></label>
           <div class="latlng-row">
-            <label>Latitude<input id="lat" type="number" step="any" required /></label>
-            <label>Longitude<input id="lng" type="number" step="any" required /></label>
+            <label>Latitude<input id="lat" type="number" step="any" /></label>
+            <label>Longitude<input id="lng" type="number" step="any" /></label>
           </div>
           <div class="checkbox-row">
             <label><input id="isVerified" type="checkbox" /> Verified</label>
@@ -63,9 +72,20 @@
           </div>
         </form>
 
+        <section class="panel" style="margin-top:12px;">
+          <h3>Address → Coordinates (Geocode)</h3>
+          <p class="muted">Manual tool only. Use one request at a time to respect Nominatim policy.</p>
+          <label>Google Geocoding API key (optional, local only)<input id="googleGeocodeKey" /></label>
+          <div class="card-actions">
+            <button id="saveKeyBtn" class="btn btn-ghost" type="button">Save key locally</button>
+            <button id="findCoordinatesBtn" class="btn btn-primary" type="button">Find Coordinates</button>
+          </div>
+          <div id="geocodeResults" class="admin-places-list"></div>
+        </section>
+
         <div style="margin-top: 14px;">
-          <h3>Pick location on mini map</h3>
-          <p class="muted">Click map to set latitude and longitude.</p>
+          <h3>Fine-tune on mini map</h3>
+          <p class="muted">Drag marker or click map to set exact coordinates.</p>
           <div id="miniMap"></div>
         </div>
       </section>

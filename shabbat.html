@@ -16,39 +16,44 @@
       <div class="toolbar-row">
         <div>
           <p class="brand">Kosher<span>Travel</span> — Shabbat Planner</p>
-          <p class="subtitle">Plan walkable Shabbat spots from your hotel location</p>
+          <p class="subtitle">Simple 3-step flow for walkable kosher spots</p>
         </div>
-        <div class="select-wrap">
-          <label for="shabbatCitySelect">City</label>
-          <select id="shabbatCitySelect" class="input-inline"></select>
-          <a href="index.html" class="btn btn-ghost">Back to Finder</a>
-        </div>
+        <a href="index.html" class="btn btn-ghost">Back to Finder</a>
       </div>
-      <div class="toolbar-row controls-row">
-        <input id="shabbatSearchInput" type="search" placeholder="Search by place name or address" aria-label="Search walkable places" />
-        <label class="toggle"><input id="shabbatFeaturedOnlyToggle" type="checkbox" checked /> Show Featured first</label>
-        <label class="toggle"><input id="shabbatVerifiedOnlyToggle" type="checkbox" /> Show Verified only</label>
-      </div>
-      <div id="shabbatCategoryChips" class="filters-row"></div>
     </header>
 
     <section class="shabbat-layout">
       <section class="panel map-panel shabbat-map-wrap">
         <div id="shabbatMap" aria-label="Shabbat map"></div>
       </section>
+
       <section class="panel results-panel">
-        <div class="shabbat-controls">
-          <div class="origin-controls">
-            <button id="setOriginBtn" class="btn btn-subtle" type="button">Set Hotel Location</button>
-            <button id="useCenterBtn" class="btn btn-ghost btn-small" type="button">Use Map Center</button>
-            <p id="originHelper" class="muted helper-text hidden">Tap the map to drop your hotel pin.</p>
-          </div>
-          <p class="muted">Walkable radius: <strong id="radiusValue">1.2 km</strong></p>
-          <div id="radiusPresetButtons" class="preset-row"></div>
-          <div class="toolbar-row">
-            <p id="shabbatSummary" class="muted"></p>
-            <button id="exportShabbatBtn" class="btn btn-primary" type="button">Export Shabbat List</button>
-          </div>
+        <div class="shabbat-steps">
+          <article class="step-card">
+            <h3>Step 1: Choose City</h3>
+            <label for="shabbatCitySelect">City</label>
+            <select id="shabbatCitySelect"></select>
+          </article>
+
+          <article class="step-card">
+            <h3>Step 2: Set Hotel Location</h3>
+            <p class="muted">Tap your hotel location on the map.</p>
+            <div class="card-actions">
+              <button id="setOriginBtn" class="btn btn-primary" type="button">Set Hotel Location</button>
+              <button id="useCenterBtn" class="btn btn-ghost" type="button">Use Current Map Center</button>
+            </div>
+            <p id="originStatus" class="muted">Hotel pin not set yet.</p>
+          </article>
+
+          <article class="step-card">
+            <h3>Step 3: Walkable Radius</h3>
+            <p class="muted">We'll show only places within walking distance for Shabbat.</p>
+            <div id="radiusPresetButtons" class="preset-row"></div>
+          </article>
+        </div>
+
+        <div class="results-header">
+          <h2>Walkable Now: <span id="walkableCount">0</span> places</h2>
         </div>
         <div id="shabbatResults" class="results-list"></div>
       </section>
