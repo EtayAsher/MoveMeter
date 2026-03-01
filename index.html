@@ -11,45 +11,35 @@
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
-  <main class="page-shell">
-    <header class="panel top-toolbar">
-      <div class="toolbar-row">
-        <div>
-          <p class="brand">Kosher<span>Travel</span></p>
-          <p class="subtitle">Premium city finder for kosher travel essentials</p>
-        </div>
-        <div class="select-wrap">
-          <label for="citySelect">City</label>
-          <select id="citySelect" class="input-inline"></select>
-          <button id="shabbatPlannerBtn" class="btn btn-primary" type="button">Shabbat Planner</button>
-        </div>
-      </div>
-      <div class="toolbar-row controls-row">
-        <input id="searchInput" type="search" placeholder="Search by place name or address" aria-label="Search places" />
-        <label class="toggle"><input id="featuredOnlyToggle" type="checkbox" checked /> Show Featured first</label>
-        <label class="toggle"><input id="verifiedOnlyToggle" type="checkbox" /> Show Verified only</label>
-      </div>
-      <div id="categoryChips" class="filters-row"></div>
-    </header>
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">KosherTravel</p>
+      <h1>Find verified kosher essentials in London, New York, and Berlin</h1>
+      <p class="hero-text">Real curated dataset with geocoded addresses only. No fake pins.</p>
+      <a class="btn btn-ghost" href="shabbat.html">Open Shabbat Planner</a>
+    </section>
 
-    <section class="layout-grid">
-      <section class="panel map-panel">
-        <div id="map" aria-label="Map"></div>
-      </section>
-      <section class="panel results-panel">
-        <div class="results-header">
-          <h2>Places</h2>
+    <section class="sticky-controls panel">
+      <label for="citySelect">City</label>
+      <select id="citySelect"></select>
+      <div id="categoryFilters" class="chip-row"></div>
+    </section>
+
+    <section class="layout">
+      <section class="panel map-wrap"><div id="map"></div></section>
+      <section class="panel list-wrap">
+        <div class="list-head">
+          <h2>Verified places</h2>
           <p id="resultCount" class="muted"></p>
         </div>
-        <div id="resultsList" class="results-list"></div>
+        <div id="resultsList" class="results"></div>
       </section>
     </section>
   </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script src="assets/ui.js"></script>
   <script src="assets/data.js"></script>
   <script src="assets/finder.js"></script>
-  <script>window.KTFinder.initFinder();</script>
+  <script>window.KTFinder.init();</script>
 </body>
 </html>
