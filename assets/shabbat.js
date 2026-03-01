@@ -1,5 +1,6 @@
 window.KTShabbat = (() => {
-  const RADII = [0.8, 1.0, 1.2, 1.5, 2.0];
+  const MIN_RADIUS = 0.8;
+  const MAX_RADIUS = 2.5;
   let map;
   let markersLayer;
   let radiusCircle;
@@ -7,23 +8,27 @@ window.KTShabbat = (() => {
   let cities = [];
   let places = [];
   let selectedCityId = '';
-  let radiusKm = 1.0;
+  let radiusKm = 1.2;
   let hotel = null;
 
   async function init() {
     const citySelect = document.getElementById('shabbatCitySelect');
-    const radiusButtons = document.getElementById('radiusButtons');
+    const radiusRange = document.getElementById('radiusRange');
+    const radiusLabel = document.getElementById('radiusLabel');
 
     cities = await KTData.fetchCities();
     places = await KTData.fetchPlaces();
 
-    selectedCityId = localStorage.getItem(KTData.STORAGE_KEY) || cities[0]?.id || 'london';
+    selectedCityId = localStorage.getItem(KTData.STORAGE_KEY) || cities[0]?.id || 'newyork';
     if (!cities.some((city) => city.id === selectedCityId)) selectedCityId = cities[0]?.id;
 
     citySelect.innerHTML = cities.map((city) => `<option value="${city.id}">${city.name}</option>`).join('');
     citySelect.value = selectedCityId;
-
-    radiusButtons.innerHTML = RADII.map((value) => `<button class="chip${value === radiusKm ? ' active' : ''}" type="button" data-radius="${value}">${value.toFixed(1)} km</button>`).join('');
+    radiusRange.min = String(MIN_RADIUS);
+    radiusRange.max = String(MAX_RADIUS);
+    radiusRange.step = '0.1';
+    radiusRange.value = String(radiusKm);
+    radiusLabel.textContent = `${radiusKm.toFixed(1)} km`;
 
     citySelect.addEventListener('change', () => {
       selectedCityId = citySelect.value;
@@ -32,24 +37,20 @@ window.KTShabbat = (() => {
       render();
     });
 
-    radiusButtons.addEventListener('click', (event) => {
-      const button = event.target.closest('button[data-radius]');
-      if (!button) return;
-      radiusKm = Number(button.dataset.radius);
-      [...radiusButtons.querySelectorAll('button')].forEach((entry) => entry.classList.toggle('active', entry === button));
+    radiusRange.addEventListener('input', () => {
+      radiusKm = Number(radiusRange.value);
+      radiusLabel.textContent = `${radiusKm.toFixed(1)} km`;
       updateOverlay();
       render();
     });
 
     map = L.map('shabbatMap', { zoomControl: true });
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
-    }).addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { attribution: '&copy; OpenStreetMap contributors &copy; CARTO' }).addTo(map);
     markersLayer = L.layerGroup().addTo(map);
 
     map.on('click', (event) => {
-      hotel = { lat: Number(event.latlng.lat), lng: Number(event.latlng.lng) };
-      document.getElementById('hotelStatus').textContent = 'Hotel set ✓';
+      hotel = { lat: event.latlng.lat, lng: event.latlng.lng };
+      setHotelMarker();
       updateOverlay();
       render();
     });
@@ -59,74 +60,61 @@ window.KTShabbat = (() => {
 
   function resetHotel() {
     hotel = null;
-    document.getElementById('hotelStatus').textContent = 'Hotel not set yet';
+    if (hotelMarker) { map.removeLayer(hotelMarker); hotelMarker = null; }
+    if (radiusCircle) { map.removeLayer(radiusCircle); radiusCircle = null; }
+    document.getElementById('hotelStatus').textContent = 'Tap map to set your hotel location.';
+  }
+
+  function setHotelMarker() {
     if (hotelMarker) map.removeLayer(hotelMarker);
-    if (radiusCircle) map.removeLayer(radiusCircle);
+    hotelMarker = L.marker([hotel.lat, hotel.lng], { icon: hotelIcon() }).addTo(map);
+    document.getElementById('hotelStatus').textContent = `Hotel set at ${hotel.lat.toFixed(5)}, ${hotel.lng.toFixed(5)}`;
   }
 
   function updateOverlay() {
-    if (hotelMarker) map.removeLayer(hotelMarker);
-    if (radiusCircle) map.removeLayer(radiusCircle);
     if (!hotel) return;
-
-    hotelMarker = L.marker([hotel.lat, hotel.lng], { icon: hotelIcon() }).addTo(map);
-    radiusCircle = L.circle([hotel.lat, hotel.lng], {
-      radius: radiusKm * 1000,
-      color: '#b48333',
-      fillColor: '#f2dcb2',
-      fillOpacity: 0.25,
-      weight: 2
-    }).addTo(map);
+    if (radiusCircle) map.removeLayer(radiusCircle);
+    radiusCircle = L.circle([hotel.lat, hotel.lng], { radius: radiusKm * 1000, color: '#C6A85A', fillColor: '#C6A85A', fillOpacity: 0.12, weight: 2 }).addTo(map);
   }
 
   function render() {
     const city = cities.find((entry) => entry.id === selectedCityId) || cities[0];
     map.setView(city.center, city.zoom);
 
-    const cityPlaces = places.filter((place) => place.cityId === city.id);
-    const walkable = hotel
-      ? cityPlaces
-          .map((place) => ({ ...place, distanceKm: KTData.haversineDistanceKm(hotel.lat, hotel.lng, place.lat, place.lng) }))
-          .filter((place) => place.distanceKm <= radiusKm)
-          .sort((a, b) => a.distanceKm - b.distanceKm)
-      : [];
+    const cityPlaces = places.filter((place) => place.cityId === city.id && place.certificationLevel === 'verified');
+    const walkable = hotel ? cityPlaces
+      .map((place) => ({ ...place, distanceKm: KTData.haversineDistanceKm(hotel.lat, hotel.lng, place.lat, place.lng) }))
+      .filter((place) => place.distanceKm <= radiusKm)
+      .sort((a, b) => a.distanceKm - b.distanceKm) : [];
 
     const wrap = document.getElementById('shabbatResults');
     const count = document.getElementById('walkableCount');
-    count.textContent = hotel ? `${walkable.length} in radius` : 'Set a hotel to start';
-
     if (!hotel) {
-      wrap.innerHTML = '<p class="empty">Tap map to set hotel location.</p>';
+      count.textContent = 'Set a hotel location to begin';
+      wrap.innerHTML = '<p class="empty">Select city, tap map to set your hotel, then adjust radius.</p>';
       markersLayer.clearLayers();
       return;
     }
 
-    if (!walkable.length) {
-      wrap.innerHTML = '<p class="empty">No places in this radius. Try increasing to 1.5 or 2.0 km.</p>';
-    } else {
-      wrap.innerHTML = walkable.map((place) => {
-        const meta = KTData.CATEGORY_META[place.category] || KTData.CATEGORY_META.restaurant;
-        const websiteButton = KTData.isRealWebsite(place.website)
-          ? `<a class="btn btn-soft" href="${place.website}" target="_blank" rel="noopener noreferrer">Website</a>`
-          : '';
-
-        return `<article class="card">
+    count.textContent = `${walkable.length} places within ${radiusKm.toFixed(1)} km`;
+    wrap.innerHTML = walkable.length ? walkable.map((place) => {
+      const meta = KTData.CATEGORY_META[place.category];
+      const websiteButton = KTData.isRealWebsite(place.website) ? `<a class="btn btn-secondary" href="${place.website}" target="_blank" rel="noopener noreferrer">Website</a>` : '';
+      return `<article class="card">
           <h3>${place.name}</h3>
-          <p><span class="badge" style="--badge:${meta.color}">${meta.label}</span></p>
-          <p class="muted">${place.address}</p>
+          <p class="badges"><span class="badge" style="--badge:${meta.color}">${meta.label}</span></p>
+          <p class="muted">${place.fullAddress}</p>
           <p class="distance">${KTData.formatDistance(place.distanceKm)}</p>
           <div class="actions">
             ${websiteButton}
             <a class="btn btn-primary" href="${KTData.getDirectionsUrl(place, hotel)}" target="_blank" rel="noopener noreferrer">Walking directions</a>
-            <a class="btn btn-soft" href="${KTData.getOpenInGoogleMapsUrl(place)}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
           </div>
         </article>`;
-      }).join('');
-    }
+    }).join('') : '<p class="empty">No verified places in this radius. Increase radius up to 2.5 km.</p>';
 
     markersLayer.clearLayers();
     walkable.forEach((place) => {
-      const meta = KTData.CATEGORY_META[place.category] || KTData.CATEGORY_META.restaurant;
+      const meta = KTData.CATEGORY_META[place.category];
       L.marker([place.lat, place.lng], { icon: markerIcon(meta.color) }).addTo(markersLayer);
     });
   }

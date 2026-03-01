@@ -3,8 +3,14 @@ window.KTData = (() => {
 
   const CATEGORY_META = {
     chabad: { label: 'Chabad', color: '#355caa' },
-    restaurant: { label: 'Restaurant', color: '#117a65' },
+    restaurant: { label: 'Restaurant', color: '#1f7a5a' },
     grocery: { label: 'Grocery', color: '#b0681b' }
+  };
+
+  const CERTIFICATION_META = {
+    verified: { label: 'Verified', color: '#C6A85A' },
+    reported: { label: 'Reported', color: '#7B8699' },
+    needsCheck: { label: 'Needs Check', color: '#D9952B' }
   };
 
   async function fetchJSON(path) {
@@ -22,18 +28,12 @@ window.KTData = (() => {
     return 2 * earthRadiusKm * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
-  function formatDistance(distanceKm) {
-    if (!Number.isFinite(distanceKm)) return '';
-    return `${distanceKm.toFixed(2)} km`;
-  }
+  const formatDistance = (distanceKm) => (Number.isFinite(distanceKm) ? `${distanceKm.toFixed(2)} km` : '');
 
   function isRealWebsite(url) {
     if (!url || typeof url !== 'string') return false;
-    const trimmed = url.trim();
-    if (!trimmed) return false;
-    if (/example\.com|example\s*domain/i.test(trimmed)) return false;
     try {
-      const parsed = new URL(trimmed);
+      const parsed = new URL(url.trim());
       return /^https?:$/.test(parsed.protocol);
     } catch {
       return false;
@@ -46,25 +46,19 @@ window.KTData = (() => {
     base.searchParams.set('api', '1');
     base.searchParams.set('destination', destination);
     base.searchParams.set('travelmode', 'walking');
-    if (origin?.lat && origin?.lng) {
-      base.searchParams.set('origin', `${Number(origin.lat)},${Number(origin.lng)}`);
-    }
+    if (origin?.lat && origin?.lng) base.searchParams.set('origin', `${Number(origin.lat)},${Number(origin.lng)}`);
     return base.toString();
-  }
-
-  function getOpenInGoogleMapsUrl(place) {
-    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${Number(place.lat)},${Number(place.lng)}`)}`;
   }
 
   return {
     CATEGORY_META,
+    CERTIFICATION_META,
     STORAGE_KEY,
     fetchCities: () => fetchJSON('data/cities.json'),
     fetchPlaces: () => fetchJSON('data/places.json'),
     haversineDistanceKm,
     formatDistance,
     isRealWebsite,
-    getDirectionsUrl,
-    getOpenInGoogleMapsUrl
+    getDirectionsUrl
   };
 })();
