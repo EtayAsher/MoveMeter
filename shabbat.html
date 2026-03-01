@@ -11,59 +11,35 @@
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
-  <main class="page-shell">
-    <header class="panel top-toolbar">
-      <div class="toolbar-row">
-        <div>
-          <p class="brand">Kosher<span>Travel</span> — Shabbat Planner</p>
-          <p class="subtitle">Simple 3-step flow for walkable kosher spots</p>
+  <main class="shell">
+    <section class="hero compact">
+      <p class="eyebrow">KosherTravel</p>
+      <h1>Shabbat Planner</h1>
+      <p class="hero-text">Step 1: city → Step 2: hotel pin → Step 3: radius filter.</p>
+      <a class="btn btn-ghost" href="index.html">Back to Finder</a>
+    </section>
+
+    <section class="panel planner-controls">
+      <div class="step"><strong>1)</strong> <label for="shabbatCitySelect">Select city</label> <select id="shabbatCitySelect"></select></div>
+      <div class="step"><strong>2)</strong> Tap the map to set hotel location <span id="hotelStatus" class="muted">Hotel not set yet</span></div>
+      <div class="step"><strong>3)</strong> <div id="radiusButtons" class="chip-row"></div></div>
+    </section>
+
+    <section class="layout">
+      <section class="panel map-wrap"><div id="shabbatMap"></div></section>
+      <section class="panel list-wrap">
+        <div class="list-head">
+          <h2>Walkable places</h2>
+          <p id="walkableCount" class="muted"></p>
         </div>
-        <a href="index.html" class="btn btn-ghost">Back to Finder</a>
-      </div>
-    </header>
-
-    <section class="shabbat-layout">
-      <section class="panel map-panel shabbat-map-wrap">
-        <div id="shabbatMap" aria-label="Shabbat map"></div>
-      </section>
-
-      <section class="panel results-panel">
-        <div class="shabbat-steps">
-          <article class="step-card">
-            <h3>Step 1: Choose City</h3>
-            <label for="shabbatCitySelect">City</label>
-            <select id="shabbatCitySelect"></select>
-          </article>
-
-          <article class="step-card">
-            <h3>Step 2: Set Hotel Location</h3>
-            <p class="muted">Tap your hotel location on the map.</p>
-            <div class="card-actions">
-              <button id="setOriginBtn" class="btn btn-primary" type="button">Set Hotel Location</button>
-              <button id="useCenterBtn" class="btn btn-ghost" type="button">Use Current Map Center</button>
-            </div>
-            <p id="originStatus" class="muted">Hotel pin not set yet.</p>
-          </article>
-
-          <article class="step-card">
-            <h3>Step 3: Walkable Radius</h3>
-            <p class="muted">We'll show only places within walking distance for Shabbat.</p>
-            <div id="radiusPresetButtons" class="preset-row"></div>
-          </article>
-        </div>
-
-        <div class="results-header">
-          <h2>Walkable Now: <span id="walkableCount">0</span> places</h2>
-        </div>
-        <div id="shabbatResults" class="results-list"></div>
+        <div id="shabbatResults" class="results"></div>
       </section>
     </section>
   </main>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
-  <script src="assets/ui.js"></script>
   <script src="assets/data.js"></script>
   <script src="assets/shabbat.js"></script>
-  <script>window.KTShabbat.initShabbat();</script>
+  <script>window.KTShabbat.init();</script>
 </body>
 </html>

@@ -1,0 +1,8 @@
+{
+  "name": "koshertravel",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build:data": "node scripts/geocode_build.js"
+  }
+}

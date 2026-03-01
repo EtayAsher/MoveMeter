@@ -1,180 +1,107 @@
 window.KTFinder = (() => {
-  const CATEGORY_META = {
-    restaurant: { label: 'Kosher Restaurants', icon: '🍽️', color: '#4869b8' },
-    grocery: { label: 'Kosher Groceries', icon: '🛒', color: '#4f8b7a' },
-    chabad: { label: 'Chabad Houses', icon: '🕍', color: '#8d6bb5' }
-  };
+  const CATEGORIES = ['chabad', 'restaurant', 'grocery'];
+  let map;
+  let markersLayer;
+  let cities = [];
+  let places = [];
+  let selectedCityId = '';
+  let activeCategory = 'all';
 
-  async function initFinder() {
-    const citySelect = KTUI.qs('#citySelect');
-    const chipsWrap = KTUI.qs('#categoryChips');
-    const searchInput = KTUI.qs('#searchInput');
-    const featuredOnlyToggle = KTUI.qs('#featuredOnlyToggle');
-    const verifiedOnlyToggle = KTUI.qs('#verifiedOnlyToggle');
-    const results = KTUI.qs('#resultsList');
-    const resultCount = KTUI.qs('#resultCount');
-    const shabbatBtn = KTUI.qs('#shabbatPlannerBtn');
+  async function init() {
+    const citySelect = document.getElementById('citySelect');
+    const categoryFilters = document.getElementById('categoryFilters');
 
-    let cities = [];
-    let cityPlaces = [];
-    let selectedCity = '';
-    let selectedCategories = new Set();
-    let searchTerm = '';
-    let map;
-    let markersLayer;
+    cities = await KTData.fetchCities();
+    places = await KTData.fetchPlaces();
 
-    try {
-      cities = await KTData.fetchCities();
-      selectedCity = restoreCity(cities);
-      citySelect.innerHTML = cities.map((city) => `<option value="${city.id}">${city.name}, ${city.country}</option>`).join('');
-      citySelect.value = selectedCity;
-      renderChips();
+    selectedCityId = localStorage.getItem(KTData.STORAGE_KEY) || cities[0]?.id || 'london';
+    if (!cities.some((city) => city.id === selectedCityId)) selectedCityId = cities[0]?.id;
 
-      map = L.map('map', { zoomControl: true, attributionControl: true });
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-        attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
-      }).addTo(map);
-      markersLayer = L.layerGroup().addTo(map);
+    citySelect.innerHTML = cities.map((city) => `<option value="${city.id}">${city.name}</option>`).join('');
+    citySelect.value = selectedCityId;
 
-      citySelect.addEventListener('change', async () => {
-        selectedCity = citySelect.value;
-        KTData.storage.set(KTData.KEYS.city, selectedCity);
-        await render();
-      });
+    categoryFilters.innerHTML = [
+      '<button type="button" class="chip active" data-category="all">All</button>',
+      ...CATEGORIES.map((category) => `<button type="button" class="chip" data-category="${category}">${KTData.CATEGORY_META[category].label}</button>`)
+    ].join('');
 
-      chipsWrap.addEventListener('click', (event) => {
-        const chip = event.target.closest('.filter-chip');
-        if (!chip) return;
-        const { category } = chip.dataset;
-        if (selectedCategories.has(category)) {
-          selectedCategories.delete(category);
-          chip.classList.remove('active');
-        } else {
-          selectedCategories.add(category);
-          chip.classList.add('active');
-        }
-        renderListOnly();
-      });
+    citySelect.addEventListener('change', () => {
+      selectedCityId = citySelect.value;
+      localStorage.setItem(KTData.STORAGE_KEY, selectedCityId);
+      render();
+    });
 
-      searchInput.addEventListener('input', KTUI.debounce(() => {
-        searchTerm = searchInput.value.trim().toLowerCase();
-        renderListOnly();
-      }, 160));
-      featuredOnlyToggle.addEventListener('change', renderListOnly);
-      verifiedOnlyToggle.addEventListener('change', renderListOnly);
+    categoryFilters.addEventListener('click', (event) => {
+      const button = event.target.closest('button[data-category]');
+      if (!button) return;
+      activeCategory = button.dataset.category;
+      [...categoryFilters.querySelectorAll('button')].forEach((entry) => entry.classList.toggle('active', entry === button));
+      render();
+    });
 
-      results.addEventListener('click', async (event) => {
-        const copyBtn = event.target.closest('[data-copy-address]');
-        if (!copyBtn) return;
-        try {
-          await navigator.clipboard.writeText(copyBtn.dataset.copyAddress);
-          KTUI.toast('Address copied.', 'success');
-        } catch (_error) {
-          KTUI.toast('Clipboard unavailable.', 'warning');
-        }
-      });
+    map = L.map('map', { zoomControl: true });
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+    }).addTo(map);
+    markersLayer = L.layerGroup().addTo(map);
 
-      shabbatBtn.addEventListener('click', () => {
-        if (!selectedCity) {
-          KTUI.toast('Choose a city first', 'warning');
-          return;
-        }
-        window.location.href = `shabbat.html?city=${encodeURIComponent(selectedCity)}`;
-      });
+    render();
+  }
 
-      await render();
-    } catch (error) {
-      console.error(error);
-      results.innerHTML = '<p class="empty-state">Unable to load finder data.</p>';
+  function render() {
+    const city = cities.find((entry) => entry.id === selectedCityId) || cities[0];
+    const resultsList = document.getElementById('resultsList');
+    const resultCount = document.getElementById('resultCount');
+
+    map.setView(city.center, city.zoom);
+
+    const cityPlaces = places
+      .filter((place) => place.cityId === city.id)
+      .filter((place) => activeCategory === 'all' || place.category === activeCategory);
+
+    resultCount.textContent = `${cityPlaces.length} places`;
+
+    if (!cityPlaces.length) {
+      resultsList.innerHTML = '<p class="empty">No verified places yet for this city.</p>';
+      markersLayer.clearLayers();
+      return;
     }
 
-    async function render() {
-      const city = cities.find((entry) => entry.id === selectedCity) || cities[0];
-      if (!city) return;
-      KTData.storage.set(KTData.KEYS.city, city.id);
-      map.setView(city.center, city.zoom);
-      const loaded = await KTData.loadCityPlaces(city);
-      cityPlaces = loaded.publicPlaces;
-      renderListOnly();
-    }
+    resultsList.innerHTML = cityPlaces.map((place) => {
+      const meta = KTData.CATEGORY_META[place.category] || KTData.CATEGORY_META.restaurant;
+      const websiteButton = KTData.isRealWebsite(place.website)
+        ? `<a class="btn btn-soft" href="${place.website}" target="_blank" rel="noopener noreferrer">Website</a>`
+        : '';
 
-    function renderListOnly() {
-      let list = [...cityPlaces];
-      if (selectedCategories.size) list = list.filter((place) => selectedCategories.has(place.category));
-      if (verifiedOnlyToggle.checked) list = list.filter((place) => place.isVerified);
-      if (searchTerm) list = list.filter((place) => (`${place.name} ${place.address}`).toLowerCase().includes(searchTerm));
-      list = featuredOnlyToggle.checked ? KTData.sortPlaces(list) : [...list].sort((a, b) => a.name.localeCompare(b.name));
-
-      renderResults(list);
-      requestAnimationFrame(() => renderMarkers(list));
-      resultCount.textContent = `${list.length} places`;
-    }
-
-    function renderChips() {
-      chipsWrap.innerHTML = Object.entries(CATEGORY_META)
-        .map(([key, meta]) => `<button type="button" class="filter-chip" data-category="${key}"><span>${meta.icon}</span>${meta.label}</button>`)
-        .join('');
-    }
-
-    function renderResults(list) {
-      if (!list.length) {
-        results.innerHTML = '<p class="empty-state">No verified map-ready places match this city and filters yet.</p>';
-        return;
-      }
-
-      results.innerHTML = list.map((place) => cardTemplate(place)).join('');
-    }
-
-    function cardTemplate(place) {
-      const meta = CATEGORY_META[place.category] || CATEGORY_META.restaurant;
-      const hasWebsite = Boolean(place.website);
-      return `
-      <article class="place-card">
-        <div class="place-pill-row">
-          ${place.isFeatured ? '<span class="pill featured">Featured</span>' : ''}
-          ${place.isVerified ? '<span class="pill verified">✓ Verified</span>' : ''}
-        </div>
+      return `<article class="card">
         <h3>${place.name}</h3>
+        <p><span class="badge" style="--badge:${meta.color}">${meta.label}</span></p>
         <p class="muted">${place.address}</p>
-        <p class="muted">${meta.icon} ${meta.label}${place.phone ? ` • ${place.phone}` : ''}</p>
-        ${place.notes ? `<p class="muted note-line">${place.notes}</p>` : ''}
-        <div class="card-actions">
-          ${hasWebsite ? `<a class="btn btn-subtle" href="${place.website}" target="_blank" rel="noopener noreferrer">Website</a>` : ''}
-          <button class="btn btn-ghost" type="button" data-copy-address="${place.address.replace(/"/g, '&quot;')}">Copy address</button>
-          <a class="btn btn-primary" href="${KTData.getDirectionsUrl(place)}" target="_blank" rel="noopener noreferrer">Walking Directions</a>
+        <div class="actions">
+          ${websiteButton}
+          <a class="btn btn-primary" href="${KTData.getDirectionsUrl(place)}" target="_blank" rel="noopener noreferrer">Walking directions</a>
+          <a class="btn btn-soft" href="${KTData.getOpenInGoogleMapsUrl(place)}" target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
         </div>
       </article>`;
-    }
+    }).join('');
 
-    function renderMarkers(list) {
-      markersLayer.clearLayers();
-      list.forEach((place) => {
-        const meta = CATEGORY_META[place.category] || CATEGORY_META.restaurant;
-        const marker = L.marker([place.lat, place.lng], {
-          icon: markerIcon(meta.color, place.isFeatured)
-        });
-        marker.bindPopup(`<strong>${place.name}</strong><br>${meta.label}<br>${place.address}`);
-        marker.addTo(markersLayer);
-      });
-    }
-  }
-
-  function restoreCity(cities) {
-    const query = new URLSearchParams(window.location.search).get('city');
-    const saved = KTData.storage.get(KTData.KEYS.city, '');
-    const candidate = query || saved || cities[0]?.id;
-    return cities.some((city) => city.id === candidate) ? candidate : cities[0]?.id;
-  }
-
-  function markerIcon(color, featured) {
-    return L.divIcon({
-      className: '',
-      html: `<span class="map-pin${featured ? ' is-featured' : ''}" style="--pin:${color}"></span>`,
-      iconSize: [24, 24],
-      iconAnchor: [12, 12],
-      popupAnchor: [0, -10]
+    markersLayer.clearLayers();
+    cityPlaces.forEach((place) => {
+      const meta = KTData.CATEGORY_META[place.category] || KTData.CATEGORY_META.restaurant;
+      L.marker([place.lat, place.lng], { icon: markerIcon(meta.color) })
+        .bindPopup(`<strong>${place.name}</strong><br>${place.address}`)
+        .addTo(markersLayer);
     });
   }
 
-  return { initFinder };
+  function markerIcon(color) {
+    return L.divIcon({
+      className: '',
+      html: `<span class="pin" style="--pin:${color}"></span>`,
+      iconSize: [18, 18],
+      iconAnchor: [9, 9]
+    });
+  }
+
+  return { init };
 })();

@@ -7,11 +7,7 @@
     "address": "85 Great Titchfield Street, London W1W 6RJ, UK",
     "website": "https://www.chabadw1.org/",
     "source_url": "https://he.chabad.org/jewish-centers/439670/London/Campus-Chabad-House/Chabad-Lubavitch-of-Bloomsbury-Central-London",
-    "lat": 51.51936,
-    "lng": -0.14268,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "85 Great Titchfield Street, London W1W 6RJ, United Kingdom",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "chabad-hampstead-garden-suburb",
@@ -21,11 +17,7 @@
     "address": "39-41 Falloden Way (Market Place), London NW11 6JT, UK",
     "website": "https://www.chabadhgs.org/",
     "source_url": "https://he.chabad.org/jewish-centers/4646187/London/Synagogue/Chabad-of-Hampstead-Garden-Suburb",
-    "lat": 51.58445,
-    "lng": -0.19666,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "39-41 Falloden Way, London NW11 6JT, United Kingdom",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "chabad-belgravia",
@@ -35,11 +27,7 @@
     "address": "11 Grosvenor Place, London SW1X 7HH, UK",
     "website": "",
     "source_url": "https://he.chabad.org/jewish-centers/6788425/London/Chabad-Belgravia",
-    "lat": 51.50048,
-    "lng": -0.15018,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "11 Grosvenor Place, London SW1X 7HH, United Kingdom",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "reubens-london",
@@ -49,11 +37,7 @@
     "address": "79 Baker St, London W1U 6RG, UK",
     "website": "https://reubensrestaurant.com/",
     "source_url": "https://reubensrestaurant.com/",
-    "lat": 51.52047,
-    "lng": -0.15736,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "79 Baker Street, London W1U 6RG, United Kingdom",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "novellino",
@@ -63,11 +47,7 @@
     "address": "103 Golders Green Road, London NW11 8EN, UK",
     "website": "https://novellinorestaurant.com/",
     "source_url": "https://novellinorestaurant.com/restaurant-novellino/",
-    "lat": 51.57178,
-    "lng": -0.20086,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "103 Golders Green Road, London NW11 8EN, United Kingdom",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "kosher-kingdom",
@@ -77,11 +57,7 @@
     "address": "7 Russell Parade, Golders Green Road, London NW11 9NN, UK",
     "website": "https://kosherkingdom.co.uk/",
     "source_url": "https://kosherkingdom.co.uk/parking/",
-    "lat": 51.57562,
-    "lng": -0.19984,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "7 Russell Parade, Golders Green Road, London NW11 9NN, United Kingdom",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "chabad-midtown-manhattan",
@@ -91,11 +67,7 @@
     "address": "509 5th Avenue, New York, NY 10017, USA",
     "website": "https://www.chabadmidtown.com/",
     "source_url": "https://www.chabad.org/jewish-centers/117905/New-York/Synagogue/Chabad-Lubavitch-of-Midtown-Manhattan",
-    "lat": 40.75363,
-    "lng": -73.98219,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "509 5th Avenue, New York, NY 10017, United States",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "chabad-upper-east-side",
@@ -105,11 +77,7 @@
     "address": "419 East 77th Street, New York, NY 10075, USA",
     "website": "https://www.chabaduppereastside.com/",
     "source_url": "https://www.chabaduppereastside.com/",
-    "lat": 40.77287,
-    "lng": -73.95252,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "419 East 77th Street, New York, NY 10075, United States",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "2nd-ave-deli",
@@ -119,11 +87,7 @@
     "address": "162 East 33rd Street, New York, NY 10016, USA",
     "website": "https://2ndavedeli.com/",
     "source_url": "https://2ndavedeli.com/locations/",
-    "lat": 40.74613,
-    "lng": -73.98043,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "162 East 33rd Street, New York, NY 10016, United States",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "izzys-brooklyn-smokehouse",
@@ -133,11 +97,7 @@
     "address": "397 Troy Avenue, Brooklyn, NY 11213, USA",
     "website": "https://izzyssmokehouse.com/",
     "source_url": "https://izzyssmokehouse.com/",
-    "lat": 40.66445,
-    "lng": -73.93675,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "397 Troy Avenue, Brooklyn, NY 11213, United States",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "the-kosher-marketplace",
@@ -147,11 +107,7 @@
     "address": "2442 Broadway, New York, NY 10024, USA",
     "website": "https://thekmp.com/",
     "source_url": "https://thekmp.com/",
-    "lat": 40.79142,
-    "lng": -73.97327,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "2442 Broadway, New York, NY 10024, United States",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "pomegranate-supermarket",
@@ -161,11 +117,7 @@
     "address": "1507 Coney Island Avenue, Brooklyn, NY 11230, USA",
     "website": "https://thepompeople.com/",
     "source_url": "https://thepompeople.com/",
-    "lat": 40.62352,
-    "lng": -73.96509,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "1507 Coney Island Avenue, Brooklyn, NY 11230, United States",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "chabad-house-berlin",
@@ -175,11 +127,7 @@
     "address": "Münstersche Straße 6, 10709 Berlin, Germany",
     "website": "https://chabadberlin.de/",
     "source_url": "https://chabadberlin.de/en/chabad-house/",
-    "lat": 52.49295,
-    "lng": 13.3083,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "Münstersche Straße 6, 10709 Berlin, Germany",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "chabad-israeli-center",
@@ -189,11 +137,7 @@
     "address": "Karl-Liebknecht-Straße 34, 10178 Berlin, Germany",
     "website": "",
     "source_url": "https://www.chabad.org/jewish-centers/318221/Berlin/Israeli-Center/Chabad-Israeli-Center",
-    "lat": 52.5244,
-    "lng": 13.41315,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "Karl-Liebknecht-Straße 34, 10178 Berlin, Germany",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "feinbergs",
@@ -203,11 +147,7 @@
     "address": "Fuggerstraße 35, 10777 Berlin, Germany",
     "website": "https://www.feinbergs.de/",
     "source_url": "https://www.worldjewishtravel.org/listing/restaurant-feinbergs/",
-    "lat": 52.49798,
-    "lng": 13.34115,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "Fuggerstraße 35, 10777 Berlin, Germany",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "kosherlife-berlin",
@@ -217,11 +157,7 @@
     "address": "Brunnenstraße 31a, 10119 Berlin, Germany",
     "website": "",
     "source_url": "https://www.kosherberlin.de/p/shopping.html",
-    "lat": 52.53227,
-    "lng": 13.40109,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "Brunnenstraße 31a, 10119 Berlin, Germany",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   },
   {
     "id": "kosher4all",
@@ -231,10 +167,6 @@
     "address": "Waitzstraße 13, 10629 Berlin, Germany",
     "website": "",
     "source_url": "https://www.kosherberlin.de/p/shopping.html",
-    "lat": 52.50373,
-    "lng": 13.30227,
-    "geocode_provider": "nominatim",
-    "geocode_display_name": "Waitzstraße 13, 10629 Berlin, Germany",
-    "last_geocoded_at": "2026-03-01T00:00:00.000Z"
+    "reason": "fetch failed"
   }
 ]
