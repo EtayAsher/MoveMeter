@@ -1,155 +1,785 @@
 [
   {
-    "id": "chabad-bloomsbury-central-london",
-    "cityId": "london",
-    "category": "chabad",
-    "name": "Chabad Bloomsbury / Central London",
-    "address": "85 Great Titchfield Street, London W1W 6RJ, UK",
-    "website": "https://www.chabadw1.org/",
-    "source_url": "https://he.chabad.org/jewish-centers/439670/London/Campus-Chabad-House/Chabad-Lubavitch-of-Bloomsbury-Central-London"
-  },
-  {
-    "id": "chabad-hampstead-garden-suburb",
-    "cityId": "london",
-    "category": "chabad",
-    "name": "Chabad of Hampstead Garden Suburb",
-    "address": "39-41 Falloden Way (Market Place), London NW11 6JT, UK",
-    "website": "https://www.chabadhgs.org/",
-    "source_url": "https://he.chabad.org/jewish-centers/4646187/London/Synagogue/Chabad-of-Hampstead-Garden-Suburb"
-  },
-  {
-    "id": "chabad-belgravia",
-    "cityId": "london",
-    "category": "chabad",
-    "name": "Chabad Belgravia",
-    "address": "11 Grosvenor Place, London SW1X 7HH, UK",
-    "website": "",
-    "source_url": "https://he.chabad.org/jewish-centers/6788425/London/Chabad-Belgravia"
-  },
-  {
-    "id": "reubens-london",
-    "cityId": "london",
-    "category": "restaurant",
-    "name": "Reubens",
-    "address": "79 Baker St, London W1U 6RG, UK",
-    "website": "https://reubensrestaurant.com/",
-    "source_url": "https://reubensrestaurant.com/"
-  },
-  {
-    "id": "novellino",
-    "cityId": "london",
-    "category": "restaurant",
-    "name": "Novellino",
-    "address": "103 Golders Green Road, London NW11 8EN, UK",
-    "website": "https://novellinorestaurant.com/",
-    "source_url": "https://novellinorestaurant.com/restaurant-novellino/"
-  },
-  {
-    "id": "kosher-kingdom",
-    "cityId": "london",
-    "category": "grocery",
-    "name": "Kosher Kingdom",
-    "address": "7 Russell Parade, Golders Green Road, London NW11 9NN, UK",
-    "website": "https://kosherkingdom.co.uk/",
-    "source_url": "https://kosherkingdom.co.uk/parking/"
-  },
-  {
-    "id": "chabad-midtown-manhattan",
+    "id": "ny-chabad-midtown",
     "cityId": "newyork",
     "category": "chabad",
     "name": "Chabad of Midtown Manhattan",
-    "address": "509 5th Avenue, New York, NY 10017, USA",
+    "fullAddress": "509 5th Avenue, New York, NY 10017, USA",
     "website": "https://www.chabadmidtown.com/",
-    "source_url": "https://www.chabad.org/jewish-centers/117905/New-York/Synagogue/Chabad-Lubavitch-of-Midtown-Manhattan"
+    "certificationLevel": "verified"
   },
   {
-    "id": "chabad-upper-east-side",
+    "id": "ny-chabad-ues",
     "cityId": "newyork",
     "category": "chabad",
     "name": "Chabad Upper East Side",
-    "address": "419 East 77th Street, New York, NY 10075, USA",
+    "fullAddress": "419 E 77th St, New York, NY 10075, USA",
     "website": "https://www.chabaduppereastside.com/",
-    "source_url": "https://www.chabaduppereastside.com/"
+    "certificationLevel": "verified"
   },
   {
-    "id": "2nd-ave-deli",
+    "id": "ny-chabad-west-side",
+    "cityId": "newyork",
+    "category": "chabad",
+    "name": "The Shul of New York (Chabad West Side)",
+    "fullAddress": "251 W 91st St, New York, NY 10024, USA",
+    "website": "https://www.theshul.nyc/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ny-chabad-downtown",
+    "cityId": "newyork",
+    "category": "chabad",
+    "name": "Chabad of Wall Street",
+    "fullAddress": "10 Cliff St, New York, NY 10038, USA",
+    "website": "https://www.chabadwallstreet.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ny-rest-2ndave",
     "cityId": "newyork",
     "category": "restaurant",
     "name": "2nd Ave Deli",
-    "address": "162 East 33rd Street, New York, NY 10016, USA",
+    "fullAddress": "162 E 33rd St, New York, NY 10016, USA",
     "website": "https://2ndavedeli.com/",
-    "source_url": "https://2ndavedeli.com/locations/"
+    "certificationLevel": "verified"
   },
   {
-    "id": "izzys-brooklyn-smokehouse",
+    "id": "ny-rest-burgerbar",
     "cityId": "newyork",
     "category": "restaurant",
-    "name": "Izzy’s Brooklyn Smokehouse",
-    "address": "397 Troy Avenue, Brooklyn, NY 11213, USA",
-    "website": "https://izzyssmokehouse.com/",
-    "source_url": "https://izzyssmokehouse.com/"
+    "name": "Burger Bar",
+    "fullAddress": "320 W 36th St, New York, NY 10018, USA",
+    "website": "https://www.burgerbarny.com/",
+    "certificationLevel": "verified"
   },
   {
-    "id": "the-kosher-marketplace",
+    "id": "ny-rest-talia",
+    "cityId": "newyork",
+    "category": "restaurant",
+    "name": "Talia's Steakhouse",
+    "fullAddress": "668 Amsterdam Ave, New York, NY 10025, USA",
+    "website": "https://www.taliassteakhouse.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ny-rest-bordeaux",
+    "cityId": "newyork",
+    "category": "restaurant",
+    "name": "Bordeaux",
+    "fullAddress": "641 Lexington Ave, New York, NY 10022, USA",
+    "website": "https://www.bordeauxny.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ny-rest-noi",
+    "cityId": "newyork",
+    "category": "restaurant",
+    "name": "Noi Due Carne",
+    "fullAddress": "141 W 69th St, New York, NY 10023, USA",
+    "website": "https://www.noiduenyc.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ny-rest-izzys",
+    "cityId": "newyork",
+    "category": "restaurant",
+    "name": "Izzy's Brooklyn Smokehouse",
+    "fullAddress": "397 Troy Ave, Brooklyn, NY 11213, USA",
+    "website": "https://izzyssmokehouse.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ny-rest-mikebistro",
+    "cityId": "newyork",
+    "category": "restaurant",
+    "name": "Mike's Bistro",
+    "fullAddress": "127 E 54th St, New York, NY 10022, USA",
+    "website": "https://www.mikesbistro.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ny-rest-basil",
+    "cityId": "newyork",
+    "category": "restaurant",
+    "name": "Basil Pizza & Wine Bar",
+    "fullAddress": "270 Kingston Ave, Brooklyn, NY 11213, USA",
+    "website": "https://www.basilnyc.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ny-rest-gardens",
+    "cityId": "newyork",
+    "category": "restaurant",
+    "name": "The Gardens",
+    "fullAddress": "393 Troy Ave, Brooklyn, NY 11213, USA",
+    "website": "https://www.thegardenseatery.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ny-rest-colbeh",
+    "cityId": "newyork",
+    "category": "restaurant",
+    "name": "Colbeh",
+    "fullAddress": "75-03 Main St, Kew Gardens Hills, NY 11367, USA",
+    "website": "https://colbeh.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ny-grocery-kmp",
     "cityId": "newyork",
     "category": "grocery",
     "name": "The Kosher Marketplace",
-    "address": "2442 Broadway, New York, NY 10024, USA",
+    "fullAddress": "2442 Broadway, New York, NY 10024, USA",
     "website": "https://thekmp.com/",
-    "source_url": "https://thekmp.com/"
+    "certificationLevel": "verified"
   },
   {
-    "id": "pomegranate-supermarket",
+    "id": "ny-grocery-pomegranate",
     "cityId": "newyork",
     "category": "grocery",
     "name": "Pomegranate Supermarket",
-    "address": "1507 Coney Island Avenue, Brooklyn, NY 11230, USA",
+    "fullAddress": "1507 Coney Island Ave, Brooklyn, NY 11230, USA",
     "website": "https://thepompeople.com/",
-    "source_url": "https://thepompeople.com/"
+    "certificationLevel": "verified"
   },
   {
-    "id": "chabad-house-berlin",
+    "id": "ny-grocery-evergreen",
+    "cityId": "newyork",
+    "category": "grocery",
+    "name": "Evergreen Kosher Market",
+    "fullAddress": "1263 Coney Island Ave, Brooklyn, NY 11230, USA",
+    "website": "https://www.evergreenkosher.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ny-grocery-seasonsexpress",
+    "cityId": "newyork",
+    "category": "grocery",
+    "name": "Seasons Express",
+    "fullAddress": "220 W 72nd St, New York, NY 10023, USA",
+    "website": "https://www.seasonskosher.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ny-grocery-gourmetglatt",
+    "cityId": "newyork",
+    "category": "grocery",
+    "name": "Gourmet Glatt",
+    "fullAddress": "1530 Union Tpke, Lake Success, NY 11040, USA",
+    "website": "https://www.gourmetglatt.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-chabad-bloomsbury",
+    "cityId": "london",
+    "category": "chabad",
+    "name": "Chabad Bloomsbury / Central London",
+    "fullAddress": "85 Great Titchfield St, London W1W 6RJ, UK",
+    "website": "https://www.chabadw1.org/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-chabad-hgs",
+    "cityId": "london",
+    "category": "chabad",
+    "name": "Chabad of Hampstead Garden Suburb",
+    "fullAddress": "39-41 Falloden Way, London NW11 6JT, UK",
+    "website": "https://www.chabadhgs.org/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-chabad-hendon",
+    "cityId": "london",
+    "category": "chabad",
+    "name": "Chabad of Hendon",
+    "fullAddress": "60 Park Rd, London NW4 3SH, UK",
+    "website": "https://www.chabadhendon.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-chabad-belgravia",
+    "cityId": "london",
+    "category": "chabad",
+    "name": "Chabad Belgravia",
+    "fullAddress": "11 Grosvenor Pl, London SW1X 7HH, UK",
+    "website": "https://www.chabadbelgravia.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-rest-reubens",
+    "cityId": "london",
+    "category": "restaurant",
+    "name": "Reubens",
+    "fullAddress": "79 Baker St, London W1U 6RG, UK",
+    "website": "https://reubensrestaurant.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-rest-novellino",
+    "cityId": "london",
+    "category": "restaurant",
+    "name": "Novellino",
+    "fullAddress": "103 Golders Green Rd, London NW11 8EN, UK",
+    "website": "https://novellinorestaurant.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-rest-sami",
+    "cityId": "london",
+    "category": "restaurant",
+    "name": "Sami's",
+    "fullAddress": "83 Golders Green Rd, London NW11 8EN, UK",
+    "website": "https://www.samis.co.uk/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-rest-pita",
+    "cityId": "london",
+    "category": "restaurant",
+    "name": "Pita",
+    "fullAddress": "60 Golders Green Rd, London NW11 8LN, UK",
+    "website": "https://www.pita-gg.co.uk/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-rest-oneashbourne",
+    "cityId": "london",
+    "category": "restaurant",
+    "name": "One Ashbourne",
+    "fullAddress": "1 Ashbourne Parade, London W5 3QS, UK",
+    "website": "https://oneashbourne.co.uk/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-rest-beit",
+    "cityId": "london",
+    "category": "restaurant",
+    "name": "Beit Ham",
+    "fullAddress": "3 Bell Ln, London NW4 2BP, UK",
+    "website": "https://www.beithamrestaurant.co.uk/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-rest-kennedys",
+    "cityId": "london",
+    "category": "restaurant",
+    "name": "Kennedy's",
+    "fullAddress": "136-138 Golders Green Rd, London NW11 8HB, UK",
+    "website": "https://www.kennedys.co.uk/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-rest-deli612",
+    "cityId": "london",
+    "category": "restaurant",
+    "name": "Deli 612",
+    "fullAddress": "612 Finchley Rd, London NW11 7RX, UK",
+    "website": "https://www.deli612.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-grocery-kingdom",
+    "cityId": "london",
+    "category": "grocery",
+    "name": "Kosher Kingdom",
+    "fullAddress": "7 Russell Parade, Golders Green Rd, London NW11 9NN, UK",
+    "website": "https://kosherkingdom.co.uk/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-grocery-kosherdeli",
+    "cityId": "london",
+    "category": "grocery",
+    "name": "Kay's Kosher Deli",
+    "fullAddress": "34 Bell Ln, London NW4 2AD, UK",
+    "website": "https://www.kayskosherdeli.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-grocery-bakery",
+    "cityId": "london",
+    "category": "grocery",
+    "name": "Bakery 370",
+    "fullAddress": "370 Hale Ln, Edgware HA8 8TR, UK",
+    "website": "https://bakery370.co.uk/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-grocery-panzer",
+    "cityId": "london",
+    "category": "grocery",
+    "name": "Panzer's Delicatessen",
+    "fullAddress": "13-19 Circus Rd, London NW8 6PB, UK",
+    "website": "https://www.panzers.co.uk/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ldn-grocery-janans",
+    "cityId": "london",
+    "category": "grocery",
+    "name": "Janan Supermarket",
+    "fullAddress": "132-134 Golders Green Rd, London NW11 8HB, UK",
+    "website": "https://janansupermarket.co.uk/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "prs-chabad",
+    "cityId": "paris",
+    "category": "chabad",
+    "name": "Chabad of Paris",
+    "fullAddress": "44 Rue de la Roquette, 75011 Paris, France",
+    "website": "https://www.chabadparis.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "prs-chabad-17",
+    "cityId": "paris",
+    "category": "chabad",
+    "name": "Chabad of Paris 17",
+    "fullAddress": "41 Rue des Orteaux, 75020 Paris, France",
+    "website": "https://www.chabad.fr/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "prs-rest-florio",
+    "cityId": "paris",
+    "category": "restaurant",
+    "name": "Florio",
+    "fullAddress": "15 Rue Richer, 75009 Paris, France",
+    "website": "https://www.florioparis.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "prs-rest-chezmarianne",
+    "cityId": "paris",
+    "category": "restaurant",
+    "name": "Chez Marianne",
+    "fullAddress": "2 Rue des Hospitali\u00e8res Saint-Gervais, 75004 Paris, France",
+    "website": "https://www.chezmarianne.com/",
+    "certificationLevel": "reported"
+  },
+  {
+    "id": "prs-rest-lasdufallafel",
+    "cityId": "paris",
+    "category": "restaurant",
+    "name": "L'As du Fallafel",
+    "fullAddress": "34 Rue des Rosiers, 75004 Paris, France",
+    "website": "https://www.lasdufallafel.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "prs-rest-charlie",
+    "cityId": "paris",
+    "category": "restaurant",
+    "name": "Charles Traiteur",
+    "fullAddress": "48 Avenue de la R\u00e9publique, 75011 Paris, France",
+    "website": "https://www.charlestroiteur.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "prs-rest-mickys",
+    "cityId": "paris",
+    "category": "restaurant",
+    "name": "Micky's Bagel",
+    "fullAddress": "58 Rue des Rosiers, 75004 Paris, France",
+    "website": "https://www.mickysbagel.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "prs-rest-kingfalafel",
+    "cityId": "paris",
+    "category": "restaurant",
+    "name": "King Falafel Palace",
+    "fullAddress": "26 Rue des Rosiers, 75004 Paris, France",
+    "website": "https://kingfalafelpalace.fr/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "prs-grocery-hypercacher",
+    "cityId": "paris",
+    "category": "grocery",
+    "name": "Hyper Cacher Vincennes",
+    "fullAddress": "26 Avenue de la Porte de Vincennes, 75012 Paris, France",
+    "website": "https://www.hypercacher.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "prs-grocery-naouri",
+    "cityId": "paris",
+    "category": "grocery",
+    "name": "Naouri Market",
+    "fullAddress": "15 Rue des Rosiers, 75004 Paris, France",
+    "website": "https://naourimarket.com/",
+    "certificationLevel": "reported"
+  },
+  {
+    "id": "la-chabad-westwood",
+    "cityId": "losangeles",
+    "category": "chabad",
+    "name": "Chabad of Westwood",
+    "fullAddress": "10861 Lindbrook Dr, Los Angeles, CA 90024, USA",
+    "website": "https://www.chabadwestwood.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "la-chabad-bh",
+    "cityId": "losangeles",
+    "category": "chabad",
+    "name": "Chabad of Beverly Hills",
+    "fullAddress": "259 N La Cienega Blvd, Beverly Hills, CA 90211, USA",
+    "website": "https://www.chabadbeverlyhills.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "la-rest-picoshul",
+    "cityId": "losangeles",
+    "category": "restaurant",
+    "name": "Pico Kosher Deli",
+    "fullAddress": "8826 W Pico Blvd, Los Angeles, CA 90035, USA",
+    "website": "https://www.picokosherdeli.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "la-rest-pats",
+    "cityId": "losangeles",
+    "category": "restaurant",
+    "name": "Pat's Restaurant",
+    "fullAddress": "8512 W Pico Blvd, Los Angeles, CA 90035, USA",
+    "website": "https://www.patsrestaurantla.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "la-rest-la-gondola",
+    "cityId": "losangeles",
+    "category": "restaurant",
+    "name": "La Gondola",
+    "fullAddress": "444 N Canon Dr, Beverly Hills, CA 90210, USA",
+    "website": "https://www.lagondola.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "la-rest-shilos",
+    "cityId": "losangeles",
+    "category": "restaurant",
+    "name": "Shilos Steakhouse",
+    "fullAddress": "8938 W Pico Blvd, Los Angeles, CA 90035, USA",
+    "website": "https://www.shiloskosher.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "la-rest-mrbroads",
+    "cityId": "losangeles",
+    "category": "restaurant",
+    "name": "Mr. Broadway",
+    "fullAddress": "6132 W Pico Blvd, Los Angeles, CA 90035, USA",
+    "website": "https://mrbroads.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "la-rest-tierresur",
+    "cityId": "losangeles",
+    "category": "restaurant",
+    "name": "Tierra Sur at Herzog Wine Cellars",
+    "fullAddress": "3201 Camino Del Sol, Oxnard, CA 93030, USA",
+    "website": "https://www.tierrasur.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "la-rest-fuegoysal",
+    "cityId": "losangeles",
+    "category": "restaurant",
+    "name": "Fuego by Mana",
+    "fullAddress": "444 N Camden Dr, Beverly Hills, CA 90210, USA",
+    "website": "https://www.fuegobymana.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "la-rest-nagila",
+    "cityId": "losangeles",
+    "category": "restaurant",
+    "name": "Nagila Pizza",
+    "fullAddress": "8585 W Pico Blvd, Los Angeles, CA 90035, USA",
+    "website": "https://www.nagilapizza.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "la-grocery-glattmart",
+    "cityId": "losangeles",
+    "category": "grocery",
+    "name": "Glatt Mart",
+    "fullAddress": "444 N Fairfax Ave, Los Angeles, CA 90036, USA",
+    "website": "https://glattmart.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "mia-chabad-surfside",
+    "cityId": "miami",
+    "category": "chabad",
+    "name": "The Shul of Bal Harbour",
+    "fullAddress": "9540 Collins Ave, Surfside, FL 33154, USA",
+    "website": "https://www.theshul.org/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "mia-chabad-downtown",
+    "cityId": "miami",
+    "category": "chabad",
+    "name": "Chabad Downtown Jewish Center",
+    "fullAddress": "28 W Flagler St, Miami, FL 33130, USA",
+    "website": "https://www.jewishdowntown.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "mia-rest-kosh",
+    "cityId": "miami",
+    "category": "restaurant",
+    "name": "The Harbour Bistro",
+    "fullAddress": "9460 Harding Ave, Surfside, FL 33154, USA",
+    "website": "https://www.theharbourgrill.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "mia-rest-fuego",
+    "cityId": "miami",
+    "category": "restaurant",
+    "name": "Fuego by Mana Miami",
+    "fullAddress": "3861 NE 163rd St, North Miami Beach, FL 33160, USA",
+    "website": "https://www.fuegobymana.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "mia-rest-aroma",
+    "cityId": "miami",
+    "category": "restaurant",
+    "name": "Aroma Espresso Bar Surfside",
+    "fullAddress": "9560 Harding Ave, Surfside, FL 33154, USA",
+    "website": "https://www.aromaespresso.com/",
+    "certificationLevel": "reported"
+  },
+  {
+    "id": "mia-rest-motek",
+    "cityId": "miami",
+    "category": "restaurant",
+    "name": "Motek Aventura",
+    "fullAddress": "19565 Biscayne Blvd, Aventura, FL 33180, USA",
+    "website": "https://www.motekcafe.com/",
+    "certificationLevel": "reported"
+  },
+  {
+    "id": "mia-rest-abbale",
+    "cityId": "miami",
+    "category": "restaurant",
+    "name": "Abbal\u00e9 Telavivian Kitchen",
+    "fullAddress": "864 Commerce St, Miami Beach, FL 33139, USA",
+    "website": "https://www.abbalemiami.com/",
+    "certificationLevel": "reported"
+  },
+  {
+    "id": "mia-rest-jonis",
+    "cityId": "miami",
+    "category": "restaurant",
+    "name": "Joni's Pizza",
+    "fullAddress": "9463 Harding Ave, Surfside, FL 33154, USA",
+    "website": "https://www.jonispizza.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "mia-grocery-kolsave",
+    "cityId": "miami",
+    "category": "grocery",
+    "name": "Kosher Price Market",
+    "fullAddress": "1656 NE Miami Gardens Dr, North Miami Beach, FL 33179, USA",
+    "website": "https://www.kosherpricemiami.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "mia-grocery-lespanola",
+    "cityId": "miami",
+    "category": "grocery",
+    "name": "Lehr's Marketplace",
+    "fullAddress": "9416 Harding Ave, Surfside, FL 33154, USA",
+    "website": "https://www.lehrsmarketplace.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ber-chabad-house",
     "cityId": "berlin",
     "category": "chabad",
     "name": "Chabad House Berlin",
-    "address": "Münstersche Straße 6, 10709 Berlin, Germany",
+    "fullAddress": "M\u00fcnstersche Str. 6, 10709 Berlin, Germany",
     "website": "https://chabadberlin.de/",
-    "source_url": "https://chabadberlin.de/en/chabad-house/"
+    "certificationLevel": "verified"
   },
   {
-    "id": "chabad-israeli-center",
+    "id": "ber-chabad-israeli",
     "cityId": "berlin",
     "category": "chabad",
     "name": "Chabad Israeli Center",
-    "address": "Karl-Liebknecht-Straße 34, 10178 Berlin, Germany",
-    "website": "",
-    "source_url": "https://www.chabad.org/jewish-centers/318221/Berlin/Israeli-Center/Chabad-Israeli-Center"
+    "fullAddress": "Karl-Liebknecht-Str. 34, 10178 Berlin, Germany",
+    "website": "https://www.chabadberlin.de/",
+    "certificationLevel": "verified"
   },
   {
-    "id": "feinbergs",
+    "id": "ber-rest-feinbergs",
     "cityId": "berlin",
     "category": "restaurant",
-    "name": "Feinberg’s",
-    "address": "Fuggerstraße 35, 10777 Berlin, Germany",
+    "name": "Feinberg's",
+    "fullAddress": "Fuggerstr. 35, 10777 Berlin, Germany",
     "website": "https://www.feinbergs.de/",
-    "source_url": "https://www.worldjewishtravel.org/listing/restaurant-feinbergs/"
+    "certificationLevel": "verified"
   },
   {
-    "id": "kosherlife-berlin",
+    "id": "ber-rest-masha",
+    "cityId": "berlin",
+    "category": "restaurant",
+    "name": "Masha Restaurant",
+    "fullAddress": "Oranienburger Str. 52, 10117 Berlin, Germany",
+    "website": "https://www.masha-berlin.de/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ber-rest-layla",
+    "cityId": "berlin",
+    "category": "restaurant",
+    "name": "Layla by Meir Adoni",
+    "fullAddress": "An der Urania 12-14, 10787 Berlin, Germany",
+    "website": "https://www.layla-restaurant.com/",
+    "certificationLevel": "reported"
+  },
+  {
+    "id": "ber-rest-josephroth",
+    "cityId": "berlin",
+    "category": "restaurant",
+    "name": "Joseph-Roth-Diele",
+    "fullAddress": "Potsdamer Str. 75, 10785 Berlin, Germany",
+    "website": "https://www.josephrothdiele.de/",
+    "certificationLevel": "reported"
+  },
+  {
+    "id": "ber-grocery-kosherlife",
     "cityId": "berlin",
     "category": "grocery",
     "name": "KosherLife",
-    "address": "Brunnenstraße 31a, 10119 Berlin, Germany",
-    "website": "",
-    "source_url": "https://www.kosherberlin.de/p/shopping.html"
+    "fullAddress": "Brunnenstr. 31a, 10119 Berlin, Germany",
+    "website": "https://kosherlife.de/",
+    "certificationLevel": "verified"
   },
   {
-    "id": "kosher4all",
+    "id": "ber-grocery-kosher4all",
     "cityId": "berlin",
     "category": "grocery",
     "name": "Kosher4all",
-    "address": "Waitzstraße 13, 10629 Berlin, Germany",
-    "website": "",
-    "source_url": "https://www.kosherberlin.de/p/shopping.html"
+    "fullAddress": "Waitzstr. 13, 10629 Berlin, Germany",
+    "website": "https://www.kosher4all.de/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ber-grocery-kolbo",
+    "cityId": "berlin",
+    "category": "grocery",
+    "name": "Kolbo Berlin",
+    "fullAddress": "Joachimsthaler Str. 13, 10719 Berlin, Germany",
+    "website": "https://www.kolbo.de/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "rom-chabad",
+    "cityId": "rome",
+    "category": "chabad",
+    "name": "Chabad Piazza Bologna",
+    "fullAddress": "Via Livorno 43, 00162 Roma RM, Italy",
+    "website": "https://www.chabadpiazzabologna.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "rom-chabad-center",
+    "cityId": "rome",
+    "category": "chabad",
+    "name": "Chabad of Rome",
+    "fullAddress": "Via Balbo 33, 00184 Roma RM, Italy",
+    "website": "https://www.chabadroma.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "rom-rest-yotvata",
+    "cityId": "rome",
+    "category": "restaurant",
+    "name": "Yotvata",
+    "fullAddress": "Via Santa Maria del Pianto 69, 00186 Roma RM, Italy",
+    "website": "https://www.yotvata.it/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "rom-rest-baadash",
+    "cityId": "rome",
+    "category": "restaurant",
+    "name": "Ba'Ghetto Milky",
+    "fullAddress": "Via del Portico d'Ottavia 57, 00186 Roma RM, Italy",
+    "website": "https://www.baghetto.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "rom-rest-baghetto",
+    "cityId": "rome",
+    "category": "restaurant",
+    "name": "Ba'Ghetto Meat",
+    "fullAddress": "Via del Portico d'Ottavia 57, 00186 Roma RM, Italy",
+    "website": "https://www.baghetto.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "rom-rest-sora",
+    "cityId": "rome",
+    "category": "restaurant",
+    "name": "Sora Margherita",
+    "fullAddress": "Piazza delle Cinque Scole 30, 00186 Roma RM, Italy",
+    "website": "https://www.soramargherita.com/",
+    "certificationLevel": "reported"
+  },
+  {
+    "id": "rom-rest-bellacarne",
+    "cityId": "rome",
+    "category": "restaurant",
+    "name": "BellaCarne Kosher",
+    "fullAddress": "Via del Tempio 39, 00186 Roma RM, Italy",
+    "website": "https://www.bellacarne.it/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "rom-grocery-kasherut",
+    "cityId": "rome",
+    "category": "grocery",
+    "name": "Super Kosher Roma",
+    "fullAddress": "Via del Portico d'Ottavia 1, 00186 Roma RM, Italy",
+    "website": "https://www.superkosherroma.it/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "rom-grocery-danieli",
+    "cityId": "rome",
+    "category": "grocery",
+    "name": "Danieli Kosher",
+    "fullAddress": "Lungotevere de' Cenci 5, 00186 Roma RM, Italy",
+    "website": "https://www.danielikosher.it/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "mia-rest-kosherland",
+    "cityId": "miami",
+    "category": "restaurant",
+    "name": "Kosherland",
+    "fullAddress": "1732 NE Miami Gardens Dr, North Miami Beach, FL 33179, USA",
+    "website": "https://www.kosherlandfl.com/",
+    "certificationLevel": "verified"
+  },
+  {
+    "id": "ber-rest-bleibergs",
+    "cityId": "berlin",
+    "category": "restaurant",
+    "name": "Bleibergs",
+    "fullAddress": "Augsburger Str. 43, 10789 Berlin, Germany",
+    "website": "https://bleibergs-berlin.de/",
+    "certificationLevel": "verified"
   }
 ]
